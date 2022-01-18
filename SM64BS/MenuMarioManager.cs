@@ -20,6 +20,8 @@ namespace SM64BS
         }
 
         public void Initialize() {
+            SM64Context.Initialize(Application.dataPath + "/../baserom.us.z64");
+
             GameObject groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
             groundGO.AddComponent<SM64StaticTerrain>();
             groundGO.GetComponent<MeshRenderer>().enabled = false;

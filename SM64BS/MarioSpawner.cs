@@ -13,9 +13,11 @@ namespace SM64BS
     internal class MarioSpawner
     {
         private readonly ResourceUtilities _utils;
+        private readonly IVRPlatformHelper _vrPlatformHelper;
 
-        public MarioSpawner(ResourceUtilities utils) {
+        public MarioSpawner(ResourceUtilities utils, IVRPlatformHelper vRPlatformHelper) {
             _utils = utils;
+            _vrPlatformHelper = vRPlatformHelper;
         }
 
         public GameObject SpawnMario(Vector3 position, Quaternion rotation) {
@@ -26,6 +28,8 @@ namespace SM64BS
 
             InputProvider inputProvider = marioGO.AddComponent<InputProvider>();
             inputProvider.camera = Camera.main;
+            inputProvider.vRPlatformHelper = _vrPlatformHelper;
+
             SM64Mario sm64Mario = marioGO.AddComponent<SM64Mario>();
             sm64Mario.enabled = false;
 
