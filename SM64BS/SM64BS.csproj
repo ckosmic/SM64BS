@@ -1,53 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A444D648-1A32-420B-9ECD-A6F2144DA29E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SM64BS</RootNamespace>
-    <AssemblyName>SM64BS</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <LocalRefsDir Condition="Exists('..\Refs')">..\Refs</LocalRefsDir>
-    <BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
-    <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
-    <!--<PathMap>$(AppOutputBase)=X:\$(AssemblyName)\</PathMap>-->
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>net472</TargetFramework>
+	<OutputType>Library</OutputType>
+	<LangVersion>9</LangVersion>
+	<Nullable>disable</Nullable>
+	<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	<LocalRefsDir Condition="Exists('..\Refs')">..\Refs</LocalRefsDir>
+	<BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
+	<AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+	<DebugType>portable</DebugType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(DefineConstants.Contains('CIBuild')) OR '$(NCrunch)' == '1'">
-    <DisableCopyToPlugins>True</DisableCopyToPlugins>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(NCrunch)' == '1'">
-    <DisableCopyToPlugins>True</DisableCopyToPlugins>
-    <DisableZipRelease>True</DisableZipRelease>
-  </PropertyGroup>
+  
   <ItemGroup>
     <Reference Include="Oculus.VR">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\Oculus.VR.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Oculus.VR.dll</HintPath>
     </Reference>
     <Reference Include="SiraUtil">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Plugins\SiraUtil.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Plugins\SiraUtil.dll</HintPath>
     </Reference>
     <Reference Include="SteamVR">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\SteamVR.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\SteamVR.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,7 +44,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.LibSM64">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Libs\Unity.LibSM64.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Libs\Unity.LibSM64.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Unity.TextMeshPro.dll</HintPath>
@@ -83,17 +55,17 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.UI.dll</HintPath>
@@ -112,40 +84,30 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.XRModule">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="Zenject">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\Zenject.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
-      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
     </Reference>
   </ItemGroup>
+  
   <ItemGroup>
-    <Compile Include="InputProvider.cs" />
-    <Compile Include="Installers\SM64BSAppInstaller.cs" />
-    <Compile Include="Installers\SM64BSMenuInstaller.cs" />
-    <Compile Include="MarioSpawner.cs" />
-    <Compile Include="MenuMarioManager.cs" />
-    <Compile Include="Plugin.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\ResourceUtilities.cs" />
+    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')"/>
+    <None Include="SM64BS.csproj.user" Condition="Exists('SM64BS.csproj.user')"/>
   </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="manifest.json" />
+	<EmbeddedResource Include="Resources\*" />
   </ItemGroup>
+  
   <ItemGroup>
-    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
-    <EmbeddedResource Include="Resources\assets.unity3d" />
-    <None Include="SM64BS.csproj.user" Condition="Exists('SM64BS.csproj.user')" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="BeatSaberModdingTools.Tasks">
-      <Version>2.0.0-beta1</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
+    <PackageReference Include="BeatSaberModdingTools.Tasks" Version="2.0.0-beta4">
+	  <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
