@@ -6,11 +6,18 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace SM64BS.Utils
 {
-    internal class ResourceUtilities
+    internal class ResourceUtilities : IInitializable
     {
+		internal AssetBundle mainBundle;
+
+		public void Initialize() {
+			mainBundle = LoadAssetBundleFromResource($"SM64BS.Resources.assets.unity3d");
+		}
+
         public AssetBundle LoadAssetBundleFromResource(string path) {
             var assembly = Assembly.GetExecutingAssembly();
 			using (Stream stream = assembly.GetManifestResourceStream(path))

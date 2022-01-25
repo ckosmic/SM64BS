@@ -95,8 +95,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')"/>
-    <None Include="SM64BS.csproj.user" Condition="Exists('SM64BS.csproj.user')"/>
+    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
+    <None Include="SM64BS.csproj.user" Condition="Exists('SM64BS.csproj.user')" />
   </ItemGroup>
   
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
-  "id": "sm64_bs",
-  "name": "sm64-bs",
+  "id": "SM64BS",
+  "name": "SM64BS",
   "author": "ckosmic",
   "version": "0.0.1",
   "description": "",

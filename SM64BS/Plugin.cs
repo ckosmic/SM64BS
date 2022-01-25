@@ -3,6 +3,7 @@ using IPA.Config;
 using IPA.Config.Stores;
 using SiraUtil.Zenject;
 using SM64BS.Installers;
+using SM64BS.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,17 +18,18 @@ namespace SM64BS
     [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-        internal static Plugin Instance { get; private set; }
+        internal static SettingsStore Settings { get; private set; }
         internal static IPALogger Log { get; private set; }
 
         [Init]
-        public Plugin(IPALogger logger, Zenjector zenject)
+        public Plugin(IPALogger logger, Config config, Zenjector zenject)
         {
-            Instance = this;
+            Settings = config.Generated<SettingsStore>();
             Log = logger;
 
             zenject.Install<SM64BSAppInstaller>(Location.App);
             zenject.Install<SM64BSMenuInstaller>(Location.Menu);
+            //zenject.Install<SM64BSGameInstaller>(Location.StandardPlayer);
         }
     }
 }

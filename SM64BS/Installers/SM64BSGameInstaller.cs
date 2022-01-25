@@ -1,4 +1,4 @@
-﻿using SM64BS.Utils;
+﻿using SM64BS.GameMario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +8,11 @@ using Zenject;
 
 namespace SM64BS.Installers
 {
-    internal class SM64BSAppInstaller : Installer<SM64BSAppInstaller>
+    internal class SM64BSGameInstaller : Installer<SM64BSGameInstaller>
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<ResourceUtilities>().AsSingle();
-            Container.Bind<MarioSpawner>().AsSingle();
+            Container.BindInterfacesTo<GameMarioManager>().AsSingle();
         }
     }
 }

@@ -8,23 +8,27 @@ using UnityEngine;
 using UnityEngine.XR;
 using Valve.VR;
 using Zenject;
+using static SM64BS.Utils.Types;
 
 namespace SM64BS
 {
     internal class InputProvider : SM64InputProvider
     {
         internal Camera camera;
-        internal IVRPlatformHelper vRPlatformHelper;
         internal List<InputDevice> leftControllers;
         internal List<InputDevice> rightControllers;
 
-        public void Start()
+        internal bool controllerPresent = false;
+
+        public void Awake()
         {
             leftControllers = new List<InputDevice>();
             rightControllers = new List<InputDevice>();
 
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, leftControllers);
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, rightControllers);
+
+            controllerPresent = leftControllers.Count > 0 || rightControllers.Count > 0;
         }
 
         public override Vector3 GetCameraLookDirection()
@@ -61,6 +65,59 @@ namespace SM64BS
                 }
             }
             return held;
+        }
+
+
+        // VR-specific functions
+
+        public bool GetVRButtonHeld(InputFeatureUsage<bool> button, VRControllerType controllerType = VRControllerType.Left | VRControllerType.Right) 
+        {
+            bool buttonHeld = false;
+            if ((uint)(controllerType & VRControllerType.Left) > 0)
+                leftControllers[0].TryGetFeatureValue(button, out buttonHeld);
+            if ((uint)(controllerType & VRControllerType.Right) > 0)
+                rightControllers[0].TryGetFeatureValue(button, out buttonHeld);
+            return buttonHeld;
+        }
+
+        public Vector3 GetVRHandPosition(VRControllerType controllerType)
+        {
+            Vector3 controllerPos = Vector3.zero;
+            if ((uint)(controllerType & VRControllerType.Left) > 0)
+                leftControllers[0].TryGetFeatureValue(CommonUsages.devicePosition, out controllerPos);
+            else if ((uint)(controllerType & VRControllerType.Right) > 0)
+                rightControllers[0].TryGetFeatureValue(CommonUsages.devicePosition, out controllerPos);
+            return controllerPos;
+        }
+
+        public Quaternion GetVRHandRotation(VRControllerType controllerType)
+        {
+            Quaternion controllerRot = Quaternion.identity;
+            if ((uint)(controllerType & VRControllerType.Left) > 0)
+                leftControllers[0].TryGetFeatureValue(CommonUsages.deviceRotation, out controllerRot);
+            else if ((uint)(controllerType & VRControllerType.Right) > 0)
+                rightControllers[0].TryGetFeatureValue(CommonUsages.deviceRotation, out controllerRot);
+            return controllerRot;
+        }
+
+        public Vector3 GetVRHandVelocity(VRControllerType controllerType)
+        {
+            Vector3 controllerVel = Vector3.zero;
+            if ((uint)(controllerType & VRControllerType.Left) > 0)
+                leftControllers[0].TryGetFeatureValue(CommonUsages.deviceVelocity, out controllerVel);
+            else if ((uint)(controllerType & VRControllerType.Right) > 0)
+                rightControllers[0].TryGetFeatureValue(CommonUsages.deviceVelocity, out controllerVel);
+            return controllerVel;
+        }
+
+        public Vector3 GetVRHandAngularVelocity(VRControllerType controllerType)
+        {
+            Vector3 controllerAngVel = Vector3.zero;
+            if ((uint)(controllerType & VRControllerType.Left) > 0)
+                leftControllers[0].TryGetFeatureValue(CommonUsages.deviceAngularVelocity, out controllerAngVel);
+            else if ((uint)(controllerType & VRControllerType.Right) > 0)
+                rightControllers[0].TryGetFeatureValue(CommonUsages.deviceAngularVelocity, out controllerAngVel);
+            return controllerAngVel;
         }
     }
 }
