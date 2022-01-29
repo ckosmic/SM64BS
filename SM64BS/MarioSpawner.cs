@@ -1,5 +1,6 @@
 ﻿using IPA.Utilities;
 using LibSM64;
+using SM64BS.Behaviours;
 using SM64BS.Utils;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace SM64BS
 
             if (_marioShader == null)
             {
-                _marioShader = _utils.mainBundle.LoadAsset<Shader>("Assets/SM64BS/mario.shader");
+                _marioShader = _utils.LoadAssetFromMainBundle<Shader>("Assets/SM64BS/mario.shader");
             }
 
             if (_marioMaterial == null)

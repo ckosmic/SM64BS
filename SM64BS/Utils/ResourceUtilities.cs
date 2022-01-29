@@ -10,15 +10,30 @@ using Zenject;
 
 namespace SM64BS.Utils
 {
-    internal class ResourceUtilities : IInitializable
-    {
-		internal AssetBundle mainBundle;
+	internal class ResourceUtilities : IInitializable
+	{
+		internal static string mainBundleResourcePath;
 
-		public void Initialize() {
-			mainBundle = LoadAssetBundleFromResource($"SM64BS.Resources.assets.unity3d");
+		private AssetBundle _mainBundle;
+
+		public void Initialize()
+		{
+			if (mainBundleResourcePath != null && mainBundleResourcePath.Length > 0)
+				LoadMainAssetBundleFromResource(mainBundleResourcePath);
 		}
 
-        public AssetBundle LoadAssetBundleFromResource(string path) {
+		public void LoadMainAssetBundleFromResource(string resourcePath)
+		{
+			_mainBundle = LoadAssetBundleFromResource(mainBundleResourcePath);
+		}
+
+		public T LoadAssetFromMainBundle<T>(string name) where T : UnityEngine.Object
+		{
+			return _mainBundle.LoadAsset<T>(name);
+		}
+
+        public AssetBundle LoadAssetBundleFromResource(string path)
+		{
             var assembly = Assembly.GetExecutingAssembly();
 			using (Stream stream = assembly.GetManifestResourceStream(path))
 			{

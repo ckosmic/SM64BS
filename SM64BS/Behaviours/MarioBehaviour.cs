@@ -36,14 +36,14 @@ namespace SM64BS.Behaviours
 
         private void Update()
         {
-            if(_inputProvider.controllerPresent)
+            if(_inputProvider.eitherControllerPresent)
                 ManageGrabs();
         }
 
         private void FixedUpdate()
         {
-            // https://karllewisdesign.com/how-to-improve-throwing-physics-in-vr/
-            if (_inputProvider.controllerPresent)
+            // https://karllewisdesign.com/how-to-improve-throwing-physics-in-vr/ <-- knawlege
+            if (_inputProvider.eitherControllerPresent)
                 VelocityUpdate();
         }
 
@@ -60,7 +60,8 @@ namespace SM64BS.Behaviours
                 _sm64Mario.SetPosition(controllerPos);
                 _sm64Mario.SetRotation(controllerRot);
 
-                if (!gripHeldL && !gripHeldR)
+                if ((_grabState.controllerType == VRControllerType.Left && !gripHeldL) || 
+                    (_grabState.controllerType == VRControllerType.Right && !gripHeldR))
                 {
                     Vector3 controllerVel = _inputProvider.GetVRHandVelocity(_grabState.controllerType);
                     Vector3 controllerAngVel = _inputProvider.GetVRHandAngularVelocity(_grabState.controllerType);
@@ -73,11 +74,18 @@ namespace SM64BS.Behaviours
             else
             {
                 Vector3 controllerPosL = _inputProvider.GetVRHandPosition(VRControllerType.Left);
+                float distanceL = Vector3.Distance(transform.position, controllerPosL);
                 Vector3 controllerPosR = _inputProvider.GetVRHandPosition(VRControllerType.Right);
-                if ((gripHeldL && Vector3.Distance(transform.position, controllerPosL) <= 1f) ||
-                    (gripHeldR && Vector3.Distance(transform.position, controllerPosR) <= 1f))
+                float distanceR = Vector3.Distance(transform.position, controllerPosR);
+                if (gripHeldL && distanceL <= 0.75f && distanceL < distanceR)
                 {
-                    _grabState.controllerType = gripHeldL ? VRControllerType.Left : VRControllerType.Right;
+                    _grabState.controllerType = VRControllerType.Left;
+                    _grabState.isGrabbing = true;
+                }
+
+                if (_grabState.isGrabbing == false && gripHeldR && distanceR <= 0.75f && distanceR < distanceL)
+                {
+                    _grabState.controllerType = VRControllerType.Right;
                     _grabState.isGrabbing = true;
                 }
             }
@@ -85,6 +93,9 @@ namespace SM64BS.Behaviours
 
         private void ReleaseGrab(Vector3 controllerVel, Vector3 controllerAngVel, Vector3 crossVel)
         {
+            _grabState.isGrabbing = false;
+            _grabState.controllerType = VRControllerType.None;
+
             throwVelocity = controllerVel + crossVel;
 
             AddVelocityHistory();
@@ -97,9 +108,6 @@ namespace SM64BS.Behaviours
             _sm64Mario.SetFowardVelocity(throwVelocityFlat.magnitude / 10f);
 
             ResetVelocityHistory();
-
-            _grabState.isGrabbing = false;
-            _grabState.controllerType = VRControllerType.None;
         }
 
         private void VelocityUpdate()

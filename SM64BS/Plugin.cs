@@ -1,6 +1,7 @@
 ﻿using IPA;
 using IPA.Config;
 using IPA.Config.Stores;
+using LibSM64;
 using SiraUtil.Zenject;
 using SM64BS.Installers;
 using SM64BS.Settings;

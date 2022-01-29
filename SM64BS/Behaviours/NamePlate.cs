@@ -15,24 +15,41 @@ namespace SM64BS.Behaviours
         private Material _textMaterial;
         private Material _plateMaterial;
         private Sprite _plateSprite;
+        private Image _plateImage;
+        private Canvas _canvas;
 
-        private TextMeshPro _tmpro;
+        private TextMeshPro _nameTMPro;
+        private TextMeshPro _messageTMPro;
 
         public void Initialize(ResourceUtilities utils)
         {
-            if (_tmpro == null)
-                _tmpro = gameObject.AddComponent<TextMeshPro>();
+            if (_nameTMPro == null)
+            {
+                _nameTMPro = new GameObject("NameText").AddComponent<TextMeshPro>();
+                Transform tmproTransform = _nameTMPro.transform;
+                tmproTransform.SetParent(transform);
+                tmproTransform.localPosition = Vector3.zero;
+                tmproTransform.localRotation = Quaternion.identity;
+            }
+            if (_messageTMPro == null)
+            {
+                _messageTMPro = new GameObject("MessageText").AddComponent<TextMeshPro>();
+                Transform tmproTransform = _messageTMPro.transform;
+                tmproTransform.SetParent(transform);
+                tmproTransform.localPosition = Vector3.up * 0.25f;
+                tmproTransform.localRotation = Quaternion.identity;
+            }
             if (_textMaterial == null)
             {
-                Shader shader = utils.mainBundle.LoadAsset<Shader>("Assets/SM64BS/TMP_SDF-Billboard.shader");
+                Shader shader = utils.LoadAssetFromMainBundle<Shader>("Assets/SM64BS/TMP_SDF-Billboard.shader");
                 _textMaterial = new Material(shader);
             }
             if (_plateMaterial == null)
             {
-                Shader shader = utils.mainBundle.LoadAsset<Shader>("Assets/SM64BS/sh_ui_billboard.shader");
+                Shader shader = utils.LoadAssetFromMainBundle<Shader>("Assets/SM64BS/sh_ui_billboard.shader");
                 _plateMaterial = new Material(shader);
                 _plateMaterial.SetFloat("_Skew", 0.18f);
-                _plateMaterial.SetColor("_Color", new Color(0.25f, 0.25f, 0.25f, 0.25f));
+                _plateMaterial.SetColor("_Color", new Color(0.0f, 0.0f, 0.0f, 0.35f));
             }
             if (_plateSprite == null)
                 _plateSprite = Resources.FindObjectsOfTypeAll<Sprite>().First(x => x.name == "RoundRect10");
@@ -42,34 +59,56 @@ namespace SM64BS.Behaviours
             _textMaterial.mainTexture = tekoMaterial.mainTexture;
             _textMaterial.mainTextureOffset = tekoMaterial.mainTextureOffset;
             _textMaterial.mainTextureScale = tekoMaterial.mainTextureScale;
-            _tmpro.material = _textMaterial;
-            GetComponent<MeshRenderer>().material = _textMaterial;
 
-            _tmpro.text = Plugin.Settings.MarioName;
-            _tmpro.fontSize = 2;
-            _tmpro.alignment = TextAlignmentOptions.Center;
-            _tmpro.fontStyle = FontStyles.Italic;
-            _tmpro.ForceMeshUpdate();
+            _nameTMPro.material = _textMaterial;
+            _nameTMPro.GetComponent<MeshRenderer>().material = _textMaterial;
+            _messageTMPro.material = _textMaterial;
+            _messageTMPro.GetComponent<MeshRenderer>().material = _textMaterial;
 
-            float textWidth = _tmpro.textBounds.size.x;
+            _nameTMPro.text = Plugin.Settings.MarioName;
+            _nameTMPro.fontSize = 2;
+            _nameTMPro.alignment = TextAlignmentOptions.Center;
+            _nameTMPro.fontStyle = FontStyles.Italic;
+            _nameTMPro.ForceMeshUpdate();
 
-            RectTransform rectTransform = GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(2.0f, 0.25f);
+            _messageTMPro.text = "";
+            _messageTMPro.fontSize = 1.25f;
+            _messageTMPro.alignment = TextAlignmentOptions.Bottom;
+            _messageTMPro.fontStyle = FontStyles.Italic;
+            _messageTMPro.ForceMeshUpdate();
 
-            Canvas canvas = new GameObject("Canvas").AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.WorldSpace;
-            canvas.transform.SetParent(transform);
-            canvas.transform.localPosition = Vector3.up * 0.01f;
-            canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(textWidth + 0.2f, 0.25f);
-            canvas.gameObject.AddComponent<CanvasScaler>().referencePixelsPerUnit = 0.5f;
+            float textWidth = _nameTMPro.textBounds.size.x;
 
-            Image plateImage = new GameObject("Background").AddComponent<Image>();
-            plateImage.type = Image.Type.Sliced;
-            plateImage.sprite = _plateSprite;
-            plateImage.material = _plateMaterial;
-            plateImage.transform.SetParent(canvas.transform);
-            plateImage.transform.localPosition = Vector3.zero;
-            plateImage.GetComponent<RectTransform>().sizeDelta = new Vector2(textWidth + 0.2f, 0.25f);
+            _nameTMPro.GetComponent<RectTransform>().sizeDelta = new Vector2(2.0f, 0.25f);
+            _messageTMPro.GetComponent<RectTransform>().sizeDelta = new Vector2(2.0f, 0.25f);
+
+            _canvas = new GameObject("Canvas").AddComponent<Canvas>();
+            _canvas.renderMode = RenderMode.WorldSpace;
+            _canvas.transform.SetParent(_nameTMPro.transform);
+            _canvas.transform.localPosition = Vector3.up * 0.01f;
+            _canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(textWidth + 0.2f, 0.25f);
+            _canvas.gameObject.AddComponent<CanvasScaler>().referencePixelsPerUnit = 0.25f;
+
+            _plateImage = new GameObject("Background").AddComponent<Image>();
+            _plateImage.type = Image.Type.Sliced;
+            _plateImage.sprite = _plateSprite;
+            _plateImage.material = _plateMaterial;
+            _plateImage.transform.SetParent(_canvas.transform);
+            _plateImage.transform.localPosition = Vector3.zero;
+            _plateImage.GetComponent<RectTransform>().sizeDelta = new Vector2(textWidth + 0.2f, 0.25f);
+        }
+
+        public void SetMessageText(string message)
+        {
+            _messageTMPro.text = message;
+        }
+
+        public void SetNamePlateText(string name)
+        {
+            _nameTMPro.text = name;
+            float textWidth = _nameTMPro.textBounds.size.x;
+            _canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(textWidth + 0.2f, 0.25f);
+            _plateImage.GetComponent<RectTransform>().sizeDelta = new Vector2(textWidth + 0.2f, 0.25f);
         }
     }
 }

@@ -4,6 +4,8 @@ using LibSM64;
 using System;
 using SM64BS.Behaviours;
 using SM64BS.Utils;
+using SM64BS.UI;
+using BeatSaberMarkupLanguage.FloatingScreen;
 
 namespace SM64BS
 {
@@ -12,9 +14,12 @@ namespace SM64BS
         private readonly MarioSpawner _marioSpawner;
         private readonly ResourceUtilities _utils;
 
-
         private GameObject _mario;
-        private NamePlate _namePlate;
+
+        internal NamePlate namePlate;
+        internal VRPointerListener vrPointerListener;
+        internal SettingsUIManager settingsUIManager;
+        internal MarioColorManager marioColorManager;
 
         public MenuMarioManager(MarioSpawner marioSpawner, ResourceUtilities utils) {
             _marioSpawner = marioSpawner;
@@ -35,14 +40,24 @@ namespace SM64BS
 
             _mario = _marioSpawner.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos));
             _mario.AddComponent<MarioBehaviour>();
+            marioColorManager = _mario.AddComponent<MarioColorManager>();
+            settingsUIManager = _mario.AddComponent<SettingsUIManager>();
 
             if (Plugin.Settings.ShowNamePlate)
             {
-                _namePlate = new GameObject("NamePlate").AddComponent<NamePlate>();
-                _namePlate.transform.SetParent(_mario.transform);
-                _namePlate.transform.localPosition = new Vector3(0f, 0.9f, 0f);
-                _namePlate.Initialize(_utils);
+                namePlate = new GameObject("NamePlate").AddComponent<NamePlate>();
+                namePlate.transform.SetParent(_mario.transform);
+                namePlate.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+                namePlate.Initialize(_utils);
             }
+
+            vrPointerListener = new GameObject("VRPointerListener").AddComponent<VRPointerListener>();
+            vrPointerListener.Initialize(namePlate, settingsUIManager);
+            vrPointerListener.transform.SetParent(_mario.transform);
+            vrPointerListener.transform.localPosition = new Vector3(0f, 0.45f, 0f);
+
+            settingsUIManager.Initialize(this);
+            settingsUIManager.CreateFloatingScreen();
         }
 
         public void Dispose()
