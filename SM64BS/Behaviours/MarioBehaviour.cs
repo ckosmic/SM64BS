@@ -47,6 +47,11 @@ namespace SM64BS.Behaviours
                 VelocityUpdate();
         }
 
+        private void OnDestroy()
+        {
+            _sm64Mario.MarioStoppedMoving -= MarioStoppedMoving;
+        }
+
         private void ManageGrabs()
         {
             bool gripHeldL = _inputProvider.GetVRButtonHeld(CommonUsages.gripButton, VRControllerType.Left);

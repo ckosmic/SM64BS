@@ -4,6 +4,7 @@ using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.ViewControllers;
 using HMUI;
 using IPA.Utilities;
+using LibSM64;
 using SM64BS.Behaviours;
 using System;
 using System.Collections.Generic;
@@ -132,10 +133,41 @@ namespace SM64BS.UI
             _basicUIAudioManager = Resources.FindObjectsOfTypeAll<BasicUIAudioManager>().First(x => x.GetComponent<AudioSource>().enabled && x.isActiveAndEnabled);
         }
 
+        [UIAction("close-modal")]
+        private void HideModalActionHandler()
+        {
+            HideModal(true);
+        }
+
+        [UIAction("reset-colors")]
+        private void ResetColors()
+        {
+            Plugin.Settings.MarioColors = SM64Types.defaultMarioColors.ToList();
+            _marioManager.marioColorManager.SetMarioColors(SM64Types.defaultMarioColors);
+            _marioManager.marioSpecialEffects.SpawnPopParticles();
+        }
+
+        [UIAction("reset-position")]
+        private void ResetPosition()
+        {
+            HideModal(true);
+            _marioManager.namePlate.gameObject.SetActive(false);
+            _marioManager.marioSpecialEffects.TeleportOut(() =>
+            {
+                Plugin.Settings.MarioPosition = new Vector3(2f, 0f, 3f);
+                _marioManager.marioGO.GetComponent<SM64Mario>().SetPosition(Plugin.Settings.MarioPosition);
+                _marioManager.marioSpecialEffects.TeleportIn(() =>
+                {
+                    _marioManager.namePlate.gameObject.SetActive(true);
+                }, 0f);
+            }, 0.5f);
+        }
+
         private void ApplyColor(int index, Color32 value)
         {
             Plugin.Settings.MarioColors[index] = value;
             _marioManager.marioColorManager.SetMarioColors(Plugin.Settings.MarioColors.ToArray());
+            _marioManager.marioSpecialEffects.SpawnPopParticles();
         }
 
         private void BlockerClickedEventHandler()
@@ -154,12 +186,6 @@ namespace SM64BS.UI
         {
             _modal.Hide(true);
             modalHidden.Invoke();
-        }
-
-        [UIAction("close-modal")]
-        private void HideModalActionHandler()
-        {
-            HideModal(true);
         }
     }
 }

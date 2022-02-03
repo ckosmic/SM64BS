@@ -4,6 +4,7 @@ using LibSM64;
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using SM64BS.Behaviours;
 
 namespace SM64BS.GameMario
 {

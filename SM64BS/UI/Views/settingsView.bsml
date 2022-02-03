@@ -41,6 +41,8 @@
 						<text text='Hair' align='Left' font-size='4' italics='true' />
 						<color-setting value='brown2' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
 					</horizontal>
+					<button text='Reset Colors' on-click='reset-colors' preferred-width='58' pad-top='3' hover-hint="Click this to set Mario's colors to default." />
+					<button text='Reset Position' on-click='reset-position' preferred-width='58' hover-hint='Click this if Mario gets stuck.' />
 				</scroll-view>
 			</horizontal>
 		</vertical>
