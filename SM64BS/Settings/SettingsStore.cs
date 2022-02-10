@@ -20,5 +20,7 @@ namespace SM64BS.Settings
         public bool ShowNamePlate = true;
         [UseConverter(typeof(ListConverter<Color32>))]
         public List<Color32> MarioColors = SM64Types.defaultMarioColors.ToList();
+        public bool SpawnMarioOnMiss = false;
+        public int MaxMarios = 5;
     }
 }

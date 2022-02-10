@@ -42,6 +42,28 @@ namespace SM64BS.UI
                 _marioManager.namePlate.SetNamePlateText(value);
             }
         }
+        [UIValue("show-nameplate")]
+        public bool ShowNamePlate
+        {
+            get { return Plugin.Settings.ShowNamePlate; }
+            set
+            {
+                Plugin.Settings.ShowNamePlate = value;
+                _marioManager.namePlate.gameObject.SetActive(value);
+            }
+        }
+        [UIValue("miss-mario")]
+        public bool SpawnMarioOnMiss
+        {
+            get { return Plugin.Settings.SpawnMarioOnMiss; }
+            set { Plugin.Settings.SpawnMarioOnMiss = value; }
+        }
+        [UIValue("max-marios")]
+        public int MaxMarios
+        {
+            get { return Plugin.Settings.MaxMarios; }
+            set { Plugin.Settings.MaxMarios = value; }
+        }
         [UIValue("shade-blue")]
         public Color ShadeBlue
         {

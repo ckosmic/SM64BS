@@ -1,9 +1,4 @@
 ﻿using SM64BS.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zenject;
 
 namespace SM64BS.Installers
@@ -14,7 +9,7 @@ namespace SM64BS.Installers
         {
             ResourceUtilities.mainBundleResourcePath = $"SM64BS.Resources.assets.unity3d";
             Container.BindInterfacesAndSelfTo<ResourceUtilities>().AsSingle();
-            Container.Bind<MarioSpawner>().AsSingle();
+            Container.BindInterfacesAndSelfTo<AppMarioManager>().AsSingle();
         }
     }
 }

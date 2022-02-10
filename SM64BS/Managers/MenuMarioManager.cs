@@ -5,13 +5,12 @@ using System;
 using SM64BS.Behaviours;
 using SM64BS.Utils;
 using SM64BS.UI;
-using BeatSaberMarkupLanguage.FloatingScreen;
 
 namespace SM64BS
 {
     internal class MenuMarioManager : IInitializable, IDisposable
     {
-        private readonly MarioSpawner _marioSpawner;
+        private readonly AppMarioManager _appMarioManager;
         private readonly ResourceUtilities _utils;
 
         internal GameObject marioGO;
@@ -21,28 +20,25 @@ namespace SM64BS
         internal MarioColorManager marioColorManager;
         internal MarioSpecialEffects marioSpecialEffects;
 
-        public MenuMarioManager(MarioSpawner marioSpawner, ResourceUtilities utils) {
-            _marioSpawner = marioSpawner;
+        public MenuMarioManager(AppMarioManager appMarioManager, ResourceUtilities utils)
+        {
+            _appMarioManager = appMarioManager;
             _utils = utils;
         }
 
-        public void Initialize() {
-            SM64Context.Terminate();
-            SM64Context.Initialize(Application.dataPath + "/../baserom.us.z64");
-            
-
+        public void Initialize()
+        {
             GameObject groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            groundGO.AddComponent<SM64StaticTerrain>();
+            _appMarioManager.AddMenuTerrain(groundGO.AddComponent<SM64StaticTerrain>());
             groundGO.GetComponent<MeshRenderer>().enabled = false;
             groundGO.transform.localScale = Vector3.one * 5f;
 
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/Notes"));
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/PileOfNotes"));
-            SM64Context.SetScaleFactor(2.0f);
 
             Vector3 spawnPos = Plugin.Settings.MarioPosition;
 
-            marioGO = _marioSpawner.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos));
+            marioGO = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos));
             marioGO.AddComponent<MarioBehaviour>();
             marioColorManager = marioGO.AddComponent<MarioColorManager>();
             settingsUIManager = marioGO.AddComponent<SettingsUIManager>();
@@ -69,7 +65,7 @@ namespace SM64BS
 
         public void Dispose()
         {
-            
+            SM64Context.Terminate();
         }
 
         private void AddSM64Collision(GameObject root)
@@ -78,11 +74,11 @@ namespace SM64BS
             {
                 if (bc.transform.parent.GetComponent<Animation>())
                 {
-                    bc.gameObject.AddComponent<SM64DynamicTerrain>();
+                    _appMarioManager.AddMenuTerrain(bc.gameObject.AddComponent<SM64DynamicTerrain>());
                 }
                 else
                 {
-                    bc.gameObject.AddComponent<SM64StaticTerrain>();
+                    _appMarioManager.AddMenuTerrain(bc.gameObject.AddComponent<SM64StaticTerrain>());
                 }
             }
         }

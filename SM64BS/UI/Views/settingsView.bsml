@@ -11,40 +11,65 @@
 					<button id='close-button' text='✕' on-click='close-modal' preferred-height='8' preferred-width='8' hover-hint='Close' italics='false' pad-right='1' />
 				</horizontal>
 			</horizontal>
-			<horizontal horizontal-fit='PreferredSize' bg='round-rect-panel'>
-				<scroll-view preferred-width='75' preferred-height='55'>
-					<horizontal spacing='46'>
-						<text text='Name' align='Left' font-size='4' italics='true' />
-						<string-setting value='name' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
+			<vertical horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='55' bg='round-rect-panel' spacing='7' child-control-height='false'>
+				<horizontal horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='7' pad-top='2'>
+					<tab-selector tab-tag='mario-settings-tab' />
+				</horizontal>
+				<tab tab-name='Menu' tags='mario-settings-tab'>
+					<horizontal horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='45' pad-top='-5'>
+						<scroll-view child-control-width='false'>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Name' align='Left' font-size='4' italics='true' />
+								<string-setting value='name' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Show Name Plate' align='Left' font-size='4' italics='true' />
+								<bool-setting value='show-nameplate' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' pad-top='3' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Overalls' align='Left' font-size='4' italics='true' />
+								<color-setting value='blue' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Shirt/Hat' align='Left' font-size='4' italics='true' />
+								<color-setting value='red' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Gloves' align='Left' font-size='4' italics='true' />
+								<color-setting value='white' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Shoes' align='Left' font-size='4' italics='true' />
+								<color-setting value='brown1' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Skin' align='Left' font-size='4' italics='true' />
+								<color-setting value='beige' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Hair' align='Left' font-size='4' italics='true' />
+								<color-setting value='brown2' text='' apply-on-change='true' />
+							</horizontal>
+							<button text='Reset Colors' on-click='reset-colors' preferred-width='58' pad-top='3' hover-hint="Click this to set Mario's colors to default." />
+							<button text='Reset Position' on-click='reset-position' preferred-width='58' hover-hint='Click this if Mario gets stuck.' />
+						</scroll-view>
 					</horizontal>
-					<horizontal spacing='46' pad-top='3'>
-						<text text='Overalls' align='Left' font-size='4' italics='true' />
-						<color-setting value='blue' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
+				</tab>
+				<tab tab-name='Game' tags='mario-settings-tab'>
+					<horizontal horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='55'>
+						<scroll-view child-control-width='false'>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Spawn Mario On Miss' align='Left' font-size='4' italics='true' />
+								<bool-setting value='miss-mario' text='' apply-on-change='true' />
+							</horizontal>
+							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
+								<text text='Max Marios' align='Left' font-size='4' italics='true' />
+								<increment-setting value='max-marios' text='' apply-on-change='true' increment='1' min='1' max='10' integer-only='true' />
+							</horizontal>
+						</scroll-view>
 					</horizontal>
-					<horizontal spacing='46'>
-						<text text='Shirt/Hat' align='Left' font-size='4' italics='true' />
-						<color-setting value='red' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
-					</horizontal>
-					<horizontal spacing='46'>
-						<text text='Gloves' align='Left' font-size='4' italics='true' />
-						<color-setting value='white' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
-					</horizontal>
-					<horizontal spacing='46'>
-						<text text='Shoes' align='Left' font-size='4' italics='true' />
-						<color-setting value='brown1' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
-					</horizontal>
-					<horizontal spacing='46'>
-						<text text='Skin' align='Left' font-size='4' italics='true' />
-						<color-setting value='beige' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
-					</horizontal>
-					<horizontal spacing='46'>
-						<text text='Hair' align='Left' font-size='4' italics='true' />
-						<color-setting value='brown2' text='' horizontal-fit='PreferredSize' preferred-width='0' apply-on-change='true' />
-					</horizontal>
-					<button text='Reset Colors' on-click='reset-colors' preferred-width='58' pad-top='3' hover-hint="Click this to set Mario's colors to default." />
-					<button text='Reset Position' on-click='reset-position' preferred-width='58' hover-hint='Click this if Mario gets stuck.' />
-				</scroll-view>
-			</horizontal>
+				</tab>
+			</vertical>
 		</vertical>
 	</modal>
 </bg>

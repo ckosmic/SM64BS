@@ -30,7 +30,7 @@ namespace SM64BS
 
             zenject.Install<SM64BSAppInstaller>(Location.App);
             zenject.Install<SM64BSMenuInstaller>(Location.Menu);
-            //zenject.Install<SM64BSGameInstaller>(Location.StandardPlayer);
+            zenject.Install<SM64BSGameInstaller>(Location.StandardPlayer);
         }
     }
 }

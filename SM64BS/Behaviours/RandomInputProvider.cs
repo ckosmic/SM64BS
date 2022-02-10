@@ -1,7 +1,7 @@
 ﻿using LibSM64;
 using UnityEngine;
 
-namespace SM64BS.GameMario
+namespace SM64BS.Behaviours
 {
     internal class RandomInputProvider : SM64InputProvider
     {
