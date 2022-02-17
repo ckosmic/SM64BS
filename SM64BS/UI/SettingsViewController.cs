@@ -6,6 +6,7 @@ using HMUI;
 using IPA.Utilities;
 using LibSM64;
 using SM64BS.Behaviours;
+using SM64BS.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,12 @@ namespace SM64BS.UI
         private BasicUIAudioManager _basicUIAudioManager;
 
         [UIComponent("close-button")]
-        private Transform _closeButtonTransform;
+        private Transform _closeButtonTransform = null;
 
         [UIComponent("header-bar")]
-        private ImageView _headerBarImageView;
+        private ImageView _headerBarImageView = null;
         [UIComponent("main-modal")]
-        private ModalView _modal;
+        private ModalView _modal = null;
 
         public Action modalHidden;
 

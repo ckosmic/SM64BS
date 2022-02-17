@@ -2,6 +2,7 @@
 using BeatSaberMarkupLanguage.FloatingScreen;
 using HMUI;
 using SM64BS.Behaviours;
+using SM64BS.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

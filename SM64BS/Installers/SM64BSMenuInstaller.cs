@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using SM64BS.Managers;
+using Zenject;
 
 namespace SM64BS.Installers
 {

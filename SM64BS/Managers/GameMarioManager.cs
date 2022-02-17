@@ -6,62 +6,110 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using SM64BS.Behaviours;
 using static BeatmapSaveData;
+using SM64BS.Utils;
+using IPA.Utilities;
 
-namespace SM64BS
+namespace SM64BS.Managers
 {
-    internal class GameMarioManager : IInitializable, IDisposable
+    internal class GameMarioManager : IInitializable, IDisposable, ILateDisposable
     {
+        private readonly BundleLoader _bundleLoader;
         private readonly AppMarioManager _appMarioManager;
-        private readonly ScoreController _scoreController;
+        private readonly SaberManager _saberManager;
 
         private List<GameObject> _marios;
-        private GameObject _groundGO;
+        private GameObject _bundleGO;
+        private EventObjects _eventObjects;
 
-        public GameMarioManager(AppMarioManager appMarioManager, ScoreController scoreController)
-        {
+        public GameMarioManager(BundleLoader bundleLoader, AppMarioManager appMarioManager, SaberManager saberManager, ScoreController scoreController, GameEnergyCounter gameEnergyCounter)
+{
+            _bundleLoader = bundleLoader;
             _appMarioManager = appMarioManager;
-            _scoreController = scoreController;
+            _saberManager = saberManager;
+
+            _eventObjects.scoreController = scoreController;
+            _eventObjects.gameEnergyCounter = gameEnergyCounter;
         }
 
         public void Initialize()
         {
-            if (Plugin.Settings.SpawnMarioOnMiss)
-                _scoreController.noteWasMissedEvent += NoteMissedHandler;
 
-            _groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            _groundGO.AddComponent<SM64StaticTerrain>();
-            _groundGO.GetComponent<MeshRenderer>().enabled = false;
-            _groundGO.transform.position = new Vector3(0f, 0f, 2.25f);
-            _groundGO.transform.localScale = Vector3.one * 0.5f;
+            if (Plugin.Settings.SelectedBundle != "default")
+            {
+                _bundleLoader.Reload();
+                MarioBundle marioBundle = _bundleLoader.GetBundleById(Plugin.Settings.SelectedBundle);
+                InstantiateMarioBundle(marioBundle);
+            }
 
+            _appMarioManager.CreateMenuBufferPlatform();
             _appMarioManager.SetMenuTerrainsEnabled(false);
+
+            RemoveColliders(_bundleGO);
 
             _marios = new List<GameObject>();
         }
 
         public void Dispose()
         {
-            if (Plugin.Settings.SpawnMarioOnMiss)
-                _scoreController.noteWasMissedEvent -= NoteMissedHandler;
-
-            UnityEngine.Object.DestroyImmediate(_groundGO);
             foreach (GameObject marioGO in _marios)
             {
-                marioGO.GetComponent<SM64Mario>().Terminate();
+                UnityEngine.Object.DestroyImmediate(marioGO);
             }
+        }
 
+        public void LateDispose()
+        {
+            UnityEngine.Object.DestroyImmediate(_bundleGO);
             _appMarioManager.SetMenuTerrainsEnabled(true);
         }
 
-        private void NoteMissedHandler(NoteData a1, int a2)
+        private void InstantiateMarioBundle(MarioBundle marioBundle)
         {
-            if (_marios.Count < Plugin.Settings.MaxMarios)
+            GameObject prefab = marioBundle.rootPrefab;
+            _bundleGO = UnityEngine.Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            SanitizeBundle(_bundleGO);
+            ParentSpecialTransforms(_bundleGO);
+            AddManagers(_bundleGO);
+        }
+
+        private void AddManagers(GameObject go)
+        {
+            go.GetComponentInChildren<ActionManager>().Initialize(_appMarioManager);
+            if (go.GetComponentInChildren<EventManager>() != null)
             {
-                GameObject marioGO = _appMarioManager.SpawnMario(_groundGO.transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f)), Quaternion.Euler(0f, Random.Range(0f, 360f), 0f), false);
-                UnityEngine.Object.DestroyImmediate(marioGO.GetComponent<InputProvider>());
-                marioGO.AddComponent<RandomInputProvider>();
-                _marios.Add(marioGO);
-                _appMarioManager.InitializeMario(marioGO);
+                foreach (EventManager em in go.GetComponentsInChildren<EventManager>(true))
+                {
+                    GameEventManager gem = em.gameObject.AddComponent<GameEventManager>();
+                    gem.Initialize(em, _eventObjects);
+                }
+            }
+        }
+
+        private void SanitizeBundle(GameObject go)
+        {
+            foreach (Camera component in go.GetComponentsInChildren<Camera>(true))
+            {
+                UnityEngine.Object.DestroyImmediate(component);
+            }
+            foreach (Light component in go.GetComponentsInChildren<Light>(true))
+            {
+                UnityEngine.Object.DestroyImmediate(component);
+            }
+        }
+
+        private void ParentSpecialTransforms(GameObject go)
+        {
+            Transform transformsTransform = go.transform.Find("Transforms");
+            transformsTransform.Find("Camera").SetParent(Camera.main.transform);
+            transformsTransform.Find("SaberR").SetParent(_saberManager.rightSaber.GetField<Transform, Saber>("_handleTransform"));
+            transformsTransform.Find("SaberL").SetParent(_saberManager.leftSaber.GetField<Transform, Saber>("_handleTransform"));
+        }
+
+        private void RemoveColliders(GameObject go)
+        {
+            foreach (Collider component in go.GetComponentsInChildren<Collider>(true))
+            {
+                UnityEngine.Object.DestroyImmediate(component);
             }
         }
     }

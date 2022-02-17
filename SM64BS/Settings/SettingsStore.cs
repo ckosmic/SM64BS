@@ -22,5 +22,6 @@ namespace SM64BS.Settings
         public List<Color32> MarioColors = SM64Types.defaultMarioColors.ToList();
         public bool SpawnMarioOnMiss = false;
         public int MaxMarios = 5;
+        public string SelectedBundle = "default";
     }
 }

@@ -1,20 +1,14 @@
 ﻿using LibSM64;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.XR;
-using Valve.VR;
-using Zenject;
 using static SM64BS.Utils.Types;
 
 namespace SM64BS.Behaviours
 {
-    internal class InputProvider : SM64InputProvider
+    public class InputProvider : SM64InputProvider
     {
-        internal Camera camera;
+        internal Camera camera = null;
         internal List<InputDevice> leftControllers;
         internal List<InputDevice> rightControllers;
 
@@ -39,7 +33,6 @@ namespace SM64BS.Behaviours
         {
             if(camera != null)
                 return camera.transform.forward;
-            Plugin.Log.Error("Camera is null, cannot get camera forward direction for input.");
             return Vector3.forward;
         }
 

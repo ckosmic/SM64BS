@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SM64BS.Behaviours
 {
-    internal class RandomInputProvider : SM64InputProvider
+    public class RandomInputProvider : SM64InputProvider
     {
         private int direction = 0;
         private float directionTimer = 0f;

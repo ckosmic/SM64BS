@@ -9,6 +9,7 @@
 	<BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
 	<AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
 	<DebugType>portable</DebugType>
+	<DefineConstants>MOD</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup>
@@ -18,14 +19,11 @@
     <Reference Include="BSML">
       <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
     </Reference>
-    <Reference Include="Oculus.VR">
-      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Oculus.VR.dll</HintPath>
+    <Reference Include="GameplayCore">
+      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
     </Reference>
     <Reference Include="SiraUtil">
       <HintPath>$(BeatSaberDir)\Plugins\SiraUtil.dll</HintPath>
-    </Reference>
-    <Reference Include="SteamVR">
-      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\SteamVR.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,6 +70,9 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>

@@ -6,10 +6,11 @@ using SM64BS.Behaviours;
 using SM64BS.Utils;
 using SM64BS.UI;
 
-namespace SM64BS
+namespace SM64BS.Managers
 {
     internal class MenuMarioManager : IInitializable, IDisposable
     {
+        private readonly BundleLoader _bundleLoader;
         private readonly AppMarioManager _appMarioManager;
         private readonly ResourceUtilities _utils;
 
@@ -20,14 +21,17 @@ namespace SM64BS
         internal MarioColorManager marioColorManager;
         internal MarioSpecialEffects marioSpecialEffects;
 
-        public MenuMarioManager(AppMarioManager appMarioManager, ResourceUtilities utils)
+        public MenuMarioManager(BundleLoader bundleLoader, AppMarioManager appMarioManager, ResourceUtilities utils)
         {
+            _bundleLoader = bundleLoader;
             _appMarioManager = appMarioManager;
             _utils = utils;
         }
 
         public void Initialize()
         {
+            _bundleLoader.Load();
+
             GameObject groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
             _appMarioManager.AddMenuTerrain(groundGO.AddComponent<SM64StaticTerrain>());
             groundGO.GetComponent<MeshRenderer>().enabled = false;
@@ -43,6 +47,8 @@ namespace SM64BS
             marioColorManager = marioGO.AddComponent<MarioColorManager>();
             settingsUIManager = marioGO.AddComponent<SettingsUIManager>();
             marioSpecialEffects = marioGO.AddComponent<MarioSpecialEffects>();
+            InputProvider inputProvider = marioGO.AddComponent<InputProvider>();
+            inputProvider.camera = Camera.main;
 
             if (Plugin.Settings.ShowNamePlate)
             {
@@ -61,6 +67,8 @@ namespace SM64BS
             settingsUIManager.CreateFloatingScreen();
 
             marioSpecialEffects.Initialize(_utils);
+
+            _appMarioManager.menuMarioGO = marioGO;
         }
 
         public void Dispose()
@@ -74,7 +82,7 @@ namespace SM64BS
             {
                 if (bc.transform.parent.GetComponent<Animation>())
                 {
-                    _appMarioManager.AddMenuTerrain(bc.gameObject.AddComponent<SM64DynamicTerrain>());
+                    //_appMarioManager.AddMenuTerrain(bc.gameObject.AddComponent<SM64DynamicTerrain>());
                 }
                 else
                 {
