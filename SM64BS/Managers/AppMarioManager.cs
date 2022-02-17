@@ -40,7 +40,7 @@ namespace SM64BS.Managers
             SM64Context.Terminate();
         }
 
-        public GameObject SpawnMario(Vector3 position, Quaternion rotation, bool initialize = true)
+        public SM64Mario SpawnMario(Vector3 position, Quaternion rotation)
         {
             GameObject marioGO = new GameObject("Mario");
 
@@ -62,14 +62,9 @@ namespace SM64BS.Managers
             }
             sm64Mario.SetField("material", _marioMaterial);
 
-            if (initialize) sm64Mario.Initialize();
+            sm64Mario.Initialize();
 
-            return marioGO;
-        }
-
-        public void InitializeMario(GameObject marioGO) 
-        {
-            marioGO.GetComponent<SM64Mario>().Initialize();
+            return sm64Mario;
         }
 
         public void AddMenuTerrain(SM64StaticTerrain terrain)

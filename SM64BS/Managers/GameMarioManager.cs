@@ -16,7 +16,6 @@ namespace SM64BS.Managers
         private readonly AppMarioManager _appMarioManager;
 
         private List<GameObject> _marios;
-        private GameObject _bundleGO;
 
         public GameMarioManager(AppMarioManager appMarioManager, ScoreController scoreController, GameEnergyCounter gameEnergyCounter)
 {
@@ -44,7 +43,6 @@ namespace SM64BS.Managers
 
         public void LateDispose()
         {
-            UnityEngine.Object.DestroyImmediate(_bundleGO);
             _appMarioManager.SetMenuTerrainsEnabled(true);
         }
     }

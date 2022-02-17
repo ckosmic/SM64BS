@@ -38,7 +38,7 @@ namespace SM64BS.Managers
 
             Vector3 spawnPos = Plugin.Settings.MarioPosition;
 
-            marioGO = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos));
+            marioGO = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos)).gameObject;
             marioGO.AddComponent<MarioBehaviour>();
             marioColorManager = marioGO.AddComponent<MarioColorManager>();
             settingsUIManager = marioGO.AddComponent<SettingsUIManager>();
