@@ -10,7 +10,6 @@ namespace SM64BS.Installers
         {
             ResourceUtilities.mainBundleResourcePath = $"SM64BS.Resources.assets.unity3d";
             Container.BindInterfacesAndSelfTo<ResourceUtilities>().AsSingle();
-            Container.Bind<BundleLoader>().AsSingle();
             Container.BindInterfacesAndSelfTo<AppMarioManager>().AsSingle();
         }
     }

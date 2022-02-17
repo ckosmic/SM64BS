@@ -10,7 +10,6 @@ namespace SM64BS.Managers
 {
     internal class MenuMarioManager : IInitializable, IDisposable
     {
-        private readonly BundleLoader _bundleLoader;
         private readonly AppMarioManager _appMarioManager;
         private readonly ResourceUtilities _utils;
 
@@ -21,17 +20,14 @@ namespace SM64BS.Managers
         internal MarioColorManager marioColorManager;
         internal MarioSpecialEffects marioSpecialEffects;
 
-        public MenuMarioManager(BundleLoader bundleLoader, AppMarioManager appMarioManager, ResourceUtilities utils)
+        public MenuMarioManager(AppMarioManager appMarioManager, ResourceUtilities utils)
         {
-            _bundleLoader = bundleLoader;
             _appMarioManager = appMarioManager;
             _utils = utils;
         }
 
         public void Initialize()
         {
-            _bundleLoader.Load();
-
             GameObject groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
             _appMarioManager.AddMenuTerrain(groundGO.AddComponent<SM64StaticTerrain>());
             groundGO.GetComponent<MeshRenderer>().enabled = false;
