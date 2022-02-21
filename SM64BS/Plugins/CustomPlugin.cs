@@ -13,6 +13,8 @@ namespace SM64BS.Plugins
         public string Name;
         [JsonProperty(nameof(Description), Required = Required.Always)]
         public string Description;
+        [JsonProperty(nameof(BundleId), Required = Required.Always)]
+        public string BundleId;
         [JsonProperty(nameof(MainClass), Required = Required.Always)]
         internal string MainClass;
 

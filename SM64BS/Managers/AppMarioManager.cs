@@ -62,7 +62,8 @@ namespace SM64BS.Managers
             }
             sm64Mario.SetField("material", _marioMaterial);
 
-            sm64Mario.Initialize();
+            if (!sm64Mario.Initialize())
+                return null;
 
             return sm64Mario;
         }

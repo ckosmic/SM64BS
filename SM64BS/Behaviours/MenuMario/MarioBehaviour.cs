@@ -16,7 +16,7 @@ namespace SM64BS.Behaviours
         private bool _waved = false;
         private Camera _mainCamera;
         private SM64Mario _sm64Mario;
-        private InputProvider _inputProvider;
+        private VRInputProvider _inputProvider;
         private GrabState _grabState;
 
         private Vector3[] velocityFrames = new Vector3[5];
@@ -27,7 +27,7 @@ namespace SM64BS.Behaviours
         {
             _mainCamera = Camera.main;
             _sm64Mario = GetComponent<SM64Mario>();
-            _inputProvider = GetComponent<InputProvider>();
+            _inputProvider = GetComponent<VRInputProvider>();
 
             _sm64Mario.MarioStoppedMoving += MarioStoppedMoving;
 

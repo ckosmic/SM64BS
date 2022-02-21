@@ -11,39 +11,27 @@ using IPA.Utilities;
 
 namespace SM64BS.Managers
 {
-    internal class GameMarioManager : IInitializable, IDisposable, ILateDisposable
+    internal class GameMarioManager : MarioSceneManager, ILateDisposable
     {
         private readonly AppMarioManager _appMarioManager;
-
-        private List<GameObject> _marios;
 
         public GameMarioManager(AppMarioManager appMarioManager, ScoreController scoreController, GameEnergyCounter gameEnergyCounter)
 {
             _appMarioManager = appMarioManager;
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
-
-            // TODO: Instantiate mario
+            base.Initialize();
 
             _appMarioManager.CreateMenuBufferPlatform();
             _appMarioManager.SetMenuTerrainsEnabled(false);
-
-            _marios = new List<GameObject>();
-        }
-
-        public void Dispose()
-        {
-            foreach (GameObject marioGO in _marios)
-            {
-                UnityEngine.Object.DestroyImmediate(marioGO);
-            }
         }
 
         public void LateDispose()
         {
             _appMarioManager.SetMenuTerrainsEnabled(true);
+            SM64Context.SetScaleFactor(2.0f);
         }
     }
 }

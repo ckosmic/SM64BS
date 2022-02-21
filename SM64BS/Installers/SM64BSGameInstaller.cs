@@ -1,4 +1,5 @@
-﻿using SM64BS.Behaviours;
+﻿using BeatSaberMarkupLanguage;
+using SM64BS.Behaviours;
 using SM64BS.EventBroadcasters;
 using SM64BS.Managers;
 using SM64BS.Plugins;
@@ -14,14 +15,24 @@ namespace SM64BS.Installers
         {
             Container.Bind<SM64BSGame>().AsSingle();
 
-            foreach (CustomPlugin plugin in Plugin.LoadedCustomPlugins.Values)
+            if (Plugin.Settings.SelectedBundle.Length > 0)
             {
-                BindCustomPlugin(plugin, plugin.MainType);
+                foreach (CustomPlugin plugin in Plugin.LoadedCustomPlugins.Values)
+                {
+                    if (plugin.BundleId == Plugin.Settings.SelectedBundle)
+                    {
+                        BindCustomPlugin(plugin, plugin.MainType);
+                    }
+                }
             }
 
             Container.BindInterfacesTo<GameMarioManager>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<PluginEventBroadcaster>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BeatmapEventBroadcaster>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnergyEventBroadcaster>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PauseEventBroadcaster>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ScoreEventBroadcaster>().AsSingle();
         }
 
         private void BindCustomPlugin(CustomPlugin plugin, Type pluginMainType)

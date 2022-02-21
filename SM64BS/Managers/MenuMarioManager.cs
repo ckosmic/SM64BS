@@ -36,6 +36,8 @@ namespace SM64BS.Managers
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/Notes"));
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/PileOfNotes"));
 
+            SM64Context.RefreshStaticTerrain();
+
             Vector3 spawnPos = Plugin.Settings.MarioPosition;
 
             marioGO = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos)).gameObject;
@@ -43,7 +45,7 @@ namespace SM64BS.Managers
             marioColorManager = marioGO.AddComponent<MarioColorManager>();
             settingsUIManager = marioGO.AddComponent<SettingsUIManager>();
             marioSpecialEffects = marioGO.AddComponent<MarioSpecialEffects>();
-            InputProvider inputProvider = marioGO.AddComponent<InputProvider>();
+            VRInputProvider inputProvider = marioGO.AddComponent<VRInputProvider>();
             inputProvider.camera = Camera.main;
 
             if (Plugin.Settings.ShowNamePlate)

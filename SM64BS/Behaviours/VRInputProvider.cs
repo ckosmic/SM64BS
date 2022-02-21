@@ -6,7 +6,7 @@ using static SM64BS.Utils.Types;
 
 namespace SM64BS.Behaviours
 {
-    public class InputProvider : SM64InputProvider
+    public class VRInputProvider : SM64InputProvider
     {
         internal Camera camera = null;
         internal List<InputDevice> leftControllers;

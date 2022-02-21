@@ -398,9 +398,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
-SM64BS-Template/Library
-SM64BS-Template/Logs
-SM64BS-Template/obj
-SM64BS-Template/Temp
-SM64BS-Template/baserom.us.z64
