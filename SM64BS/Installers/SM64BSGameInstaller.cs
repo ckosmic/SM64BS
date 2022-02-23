@@ -1,9 +1,14 @@
 ﻿using BeatSaberMarkupLanguage;
+using IPA.Old;
 using SM64BS.Behaviours;
 using SM64BS.EventBroadcasters;
 using SM64BS.Managers;
 using SM64BS.Plugins;
+using SM64BS.Plugins.BuiltIn;
+using SM64BS.Plugins.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -15,16 +20,15 @@ namespace SM64BS.Installers
         {
             Container.Bind<SM64BSGame>().AsSingle();
 
-            if (Plugin.Settings.SelectedBundle.Length > 0)
-            {
-                foreach (CustomPlugin plugin in Plugin.LoadedCustomPlugins.Values)
-                {
-                    if (plugin.BundleId == Plugin.Settings.SelectedBundle)
-                    {
-                        BindCustomPlugin(plugin, plugin.MainType);
-                    }
-                }
-            }
+            if (Plugin.Settings.SelectedPlugin.Length == 0 || Plugin.LoadedCustomPlugins.Count == 0) return;
+
+            //BindBuiltInPlugin<PauseMenuMario>();
+            //BindBuiltInPlugin<SpawnMarioOnMiss>();
+
+            CustomPlugin[] customPlugins = new CustomPlugin[Plugin.LoadedCustomPlugins.Count];
+            Plugin.LoadedCustomPlugins.Values.CopyTo(customPlugins, 0);
+            CustomPlugin selectedPlugin = customPlugins.First(x => x.PluginId == Plugin.Settings.SelectedPlugin);
+            BindCustomPlugin(selectedPlugin, selectedPlugin.MainType);
 
             Container.BindInterfacesTo<GameMarioManager>().AsSingle();
 
@@ -33,6 +37,18 @@ namespace SM64BS.Installers
             Container.BindInterfacesAndSelfTo<EnergyEventBroadcaster>().AsSingle();
             Container.BindInterfacesAndSelfTo<PauseEventBroadcaster>().AsSingle();
             Container.BindInterfacesAndSelfTo<ScoreEventBroadcaster>().AsSingle();
+        }
+
+        private void BindBuiltInPlugin<T>() where T : IPluginEventHandler
+        {
+            if (typeof(T).BaseType == typeof(MonoBehaviour))
+            {
+                Container.BindInterfacesAndSelfTo<T>().FromComponentOnRoot().AsSingle();
+            }
+            else
+            {
+                Container.BindInterfacesAndSelfTo<T>().AsSingle();
+            }
         }
 
         private void BindCustomPlugin(CustomPlugin plugin, Type pluginMainType)

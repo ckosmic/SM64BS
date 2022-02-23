@@ -13,7 +13,7 @@
 			</horizontal>
 			<vertical horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='55' bg='round-rect-panel' spacing='7' child-control-height='false'>
 				<horizontal horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='7' pad-top='2'>
-					<tab-selector tab-tag='mario-settings-tab' />
+					<tab-selector id='settings-tab-selector' tab-tag='mario-settings-tab' />
 				</horizontal>
 				<tab tab-name='Menu' tags='mario-settings-tab'>
 					<horizontal horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='45' pad-top='-5'>
@@ -59,13 +59,16 @@
 					<horizontal horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='55'>
 						<scroll-view child-control-width='false'>
 							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
-								<text text='Spawn Mario On Miss' align='Left' font-size='4' italics='true' />
-								<bool-setting value='miss-mario' text='' apply-on-change='true' />
-							</horizontal>
-							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
 								<text text='Max Marios' align='Left' font-size='4' italics='true' />
 								<increment-setting value='max-marios' text='' apply-on-change='true' increment='1' min='1' max='10' integer-only='true' />
 							</horizontal>
+						</scroll-view>
+					</horizontal>
+				</tab>
+				<tab tab-name='Plugins' tags='mario-settings-tab'>
+					<horizontal horizontal-fit='PreferredSize' preferred-width='75' vertical-fit='PreferredSize' preferred-height='45' pad-top='-5'>
+						<scroll-view child-control-width='false'>
+							<list id='plugins-list' expand-cell='true' select-cell='plugin-select' />
 						</scroll-view>
 					</horizontal>
 				</tab>

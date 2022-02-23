@@ -22,7 +22,7 @@ namespace SM64BS
     {
         internal static SettingsStore Settings { get; private set; }
         internal static IPALogger Log { get; private set; }
-        internal static Dictionary<Assembly, CustomPlugin> LoadedCustomPlugins { get; private set; } = new Dictionary<Assembly, CustomPlugin>();
+        internal static Dictionary<Tuple<Assembly, int>, CustomPlugin> LoadedCustomPlugins { get; private set; } = new Dictionary<Tuple<Assembly, int>, CustomPlugin>();
 
         [Init]
         public Plugin(IPALogger logger, Config config, Zenjector zenject)

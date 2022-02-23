@@ -1,6 +1,6 @@
 ﻿namespace SM64BS.Plugins.Interfaces
 {
-    public interface ISM64BSPlugin : IEventHandler
+    public interface IPluginEventHandler : IEventHandler
     {
         void PluginInitialize();
         void PluginDispose();

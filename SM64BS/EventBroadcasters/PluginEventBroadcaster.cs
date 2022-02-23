@@ -1,28 +1,22 @@
-﻿using LibSM64;
-using SM64BS.Plugins.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SM64BS.Plugins.Interfaces;
 
 namespace SM64BS.EventBroadcasters
 {
-    internal class PluginEventBroadcaster : EventBroadcaster<ISM64BSPlugin>
+    internal class PluginEventBroadcaster : EventBroadcaster<IPluginEventHandler>
     {
         public override void Initialize()
         {
-            foreach (ISM64BSPlugin plugin in EventHandlers)
+            foreach (IPluginEventHandler eventHandler in EventHandlers)
             {
-                plugin.PluginInitialize();
+                eventHandler.PluginInitialize();
             }
         }
 
         public override void Dispose()
         {
-            foreach (ISM64BSPlugin plugin in EventHandlers)
+            foreach (IPluginEventHandler eventHandler in EventHandlers)
             {
-                plugin.PluginDispose();
+                eventHandler.PluginDispose();
             }
         }
     }

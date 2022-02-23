@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,11 +39,17 @@ namespace SM64BS.Plugins
             {
                 if (!TryLoadType(ref plugin.MainType, meta, plugin.MainClass))
                 {
-                    Plugin.Log.Error($"Failed to load a Type from the provided CounterLocation for { plugin.Name }.");
+                    Plugin.Log.Error($"Failed to load a Type from the provided MainClass for { plugin.Name }.");
                     return;
                 }
 
-                Plugin.LoadedCustomPlugins.Add(meta.Assembly, plugin);
+                if (plugin.PluginId == Plugin.Settings.SelectedPlugin)
+                {
+                    Plugin.Settings.SelectedPluginIndex = Plugin.LoadedCustomPlugins.Count;
+                }
+
+                Tuple<Assembly, int> t = new Tuple<Assembly, int>(meta.Assembly, Plugin.LoadedCustomPlugins.Count);
+                Plugin.LoadedCustomPlugins.Add(t, plugin);
             }
         }
 

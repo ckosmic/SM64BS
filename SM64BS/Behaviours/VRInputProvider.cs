@@ -18,6 +18,18 @@ namespace SM64BS.Behaviours
 
         public void Awake()
         {
+            CheckForControllers();
+            InputDevices.deviceConnected += DeviceChanged;
+            InputDevices.deviceDisconnected += DeviceChanged;
+        }
+
+        private void DeviceChanged(InputDevice connectedDevice)
+        {
+            CheckForControllers();
+        }
+
+        private void CheckForControllers()
+        {
             leftControllers = new List<InputDevice>();
             rightControllers = new List<InputDevice>();
 
