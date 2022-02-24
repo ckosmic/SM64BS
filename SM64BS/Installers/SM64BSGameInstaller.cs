@@ -22,9 +22,6 @@ namespace SM64BS.Installers
 
             if (Plugin.Settings.SelectedPlugin.Length == 0 || Plugin.LoadedCustomPlugins.Count == 0) return;
 
-            //BindBuiltInPlugin<PauseMenuMario>();
-            //BindBuiltInPlugin<SpawnMarioOnMiss>();
-
             CustomPlugin[] customPlugins = new CustomPlugin[Plugin.LoadedCustomPlugins.Count];
             Plugin.LoadedCustomPlugins.Values.CopyTo(customPlugins, 0);
             CustomPlugin selectedPlugin = customPlugins.First(x => x.PluginId == Plugin.Settings.SelectedPlugin);
@@ -37,18 +34,6 @@ namespace SM64BS.Installers
             Container.BindInterfacesAndSelfTo<EnergyEventBroadcaster>().AsSingle();
             Container.BindInterfacesAndSelfTo<PauseEventBroadcaster>().AsSingle();
             Container.BindInterfacesAndSelfTo<ScoreEventBroadcaster>().AsSingle();
-        }
-
-        private void BindBuiltInPlugin<T>() where T : IPluginEventHandler
-        {
-            if (typeof(T).BaseType == typeof(MonoBehaviour))
-            {
-                Container.BindInterfacesAndSelfTo<T>().FromComponentOnRoot().AsSingle();
-            }
-            else
-            {
-                Container.BindInterfacesAndSelfTo<T>().AsSingle();
-            }
         }
 
         private void BindCustomPlugin(CustomPlugin plugin, Type pluginMainType)

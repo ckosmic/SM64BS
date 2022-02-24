@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 namespace SM64BS.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public sealed class PluginMetadataAttribute : Attribute
+    internal sealed class PluginMetadataAttribute : Attribute
     {
         public string Name { get; set; }
         public string Author { get; set; }
         public string Description { get; set; }
         public string PluginId { get; set; }
-        public string MainClass { get; set; }
+
+        internal string MainClass { get; set; }
     }
 }
