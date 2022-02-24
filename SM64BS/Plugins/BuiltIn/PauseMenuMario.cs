@@ -24,9 +24,11 @@ namespace SM64BS.Plugins.BuiltIn
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.AddComponent<SM64StaticTerrain>();
             ground.GetComponent<MeshRenderer>().enabled = false;
+            ground.transform.position = new Vector3(0, 0.02f, 0f);
 
-            _sm64Mario = GameScene.SpawnMario(new Vector3(1, 0, 1), Quaternion.identity);
-            _sm64Mario.gameObject.AddComponent<TriggerInputProvider>();
+            _sm64Mario = GameScene.SpawnMario(new Vector3(1, 0.02f, 1), Quaternion.Euler(0, 180, 0));
+            TriggerInputProvider inputProvider = _sm64Mario.gameObject.AddComponent<TriggerInputProvider>();
+            inputProvider.SetSaberTransforms(GameScene.saberLTransform, GameScene.saberRTransform);
             _sm64Mario.RefreshInputProvider();
             _sm64Mario.marioRendererObject.SetActive(false);
             _sm64Mario.enabled = false;

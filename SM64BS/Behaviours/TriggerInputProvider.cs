@@ -15,6 +15,7 @@ namespace SM64BS.Behaviours
         private Vector3 _targetPosition;
         private SM64Mario _sm64Mario;
         private bool _isTraveling = false;
+        private Transform _saberLTransform, _saberRTransform;
 
         public override bool GetButtonHeld(Button button)
         {
@@ -23,7 +24,7 @@ namespace SM64BS.Behaviours
 
         public override Vector3 GetCameraLookDirection()
         {
-            return Vector3.forward;
+            return transform.forward;
         }
 
         public override Vector2 GetJoystickAxes()
@@ -33,11 +34,12 @@ namespace SM64BS.Behaviours
             if (!_isTraveling) return Vector2.zero;
 
             Vector3 delta = _targetPosition - transform.position;
+            delta.y = 0;
 
-            if (delta.magnitude > 0.01f)
+            if (Mathf.Abs(delta.magnitude) >= 0.1f)
             {
                 _sm64Mario.SetRotation(Quaternion.LookRotation(delta));
-                return new Vector2(Mathf.Clamp01(delta.x), Mathf.Clamp01(delta.z));
+                return new Vector2(0.0f, 1.0f);
             }
             else
             {
@@ -50,25 +52,27 @@ namespace SM64BS.Behaviours
         private void UpdateTrigger()
         {
             bool isHeld = false;
-            Utils.Types.VRControllerType priority = Utils.Types.VRControllerType.Left;
+            Utils.Types.VRControllerType hand = Utils.Types.VRControllerType.Left;
             if (GetVRButtonHeld(CommonUsages.triggerButton, Utils.Types.VRControllerType.Left))
             {
                 isHeld = true;
-                priority = Utils.Types.VRControllerType.Left;
+                hand = Utils.Types.VRControllerType.Left;
             }
             if (GetVRButtonHeld(CommonUsages.triggerButton, Utils.Types.VRControllerType.Right))
             {
                 isHeld = true;
-                priority = Utils.Types.VRControllerType.Right;
+                hand = Utils.Types.VRControllerType.Right;
             }
 
             if (!isHeld) return;
 
-            Vector3 origin = GetVRHandPosition(priority);
+            Transform saberTransform = hand == Utils.Types.VRControllerType.Left ? _saberLTransform : _saberRTransform;
+
+            Vector3 origin = GetVRHandPosition(hand);
             RaycastHit hit;
-            if (Physics.Raycast(origin, -Vector3.up, out hit, 20f))
+            if (Physics.Raycast(origin, saberTransform.forward, out hit, 20f))
             {
-                if (hit.transform.GetComponent<SM64StaticTerrain>() != null)
+                if (hit.transform.GetComponent<SM64StaticTerrain>() != null && Vector3.Distance(transform.position, hit.point) > 0.3f)
                 {
                     SetTargetPosition(hit.point);
                 }
@@ -80,11 +84,17 @@ namespace SM64BS.Behaviours
             if(_sm64Mario == null)
                 _sm64Mario = GetComponent<SM64Mario>();
 
-            Vector3 direction = targetPosition - transform.position;
-            _sm64Mario.SetRotation(Quaternion.LookRotation(direction));
+            Vector3 delta = targetPosition - transform.position;
+            _sm64Mario.SetRotation(Quaternion.LookRotation(delta));
 
             _targetPosition = targetPosition;
             _isTraveling = true;
+        }
+
+        public void SetSaberTransforms(Transform saberL, Transform saberR)
+        {
+            _saberLTransform = saberL;
+            _saberRTransform = saberR;
         }
     }
 }
