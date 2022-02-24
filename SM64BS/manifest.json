@@ -8,5 +8,11 @@
   "gameVersion": "1.18.3",
   "dependsOn": {
     "BSIPA": "^4.2.0"
+  },
+  "features": {
+    "IPA.DefineFeature": {
+      "type": "SM64BS.Plugins.CustomPluginFeature",
+      "name": "SM64BS.CustomPlugin"
+    }
   }
 }

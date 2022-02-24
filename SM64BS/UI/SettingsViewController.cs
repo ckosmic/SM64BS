@@ -5,11 +5,16 @@ using BeatSaberMarkupLanguage.ViewControllers;
 using HMUI;
 using IPA.Utilities;
 using LibSM64;
+using SM64BS.Attributes;
 using SM64BS.Behaviours;
 using SM64BS.Managers;
+using SM64BS.Plugins;
+using SM64BS.Plugins.BuiltIn;
+using SM64BS.Plugins.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace SM64BS.UI
@@ -28,6 +33,11 @@ namespace SM64BS.UI
         private ImageView _headerBarImageView = null;
         [UIComponent("main-modal")]
         private ModalView _modal = null;
+        [UIComponent("plugins-list")]
+        private CustomListTableData _pluginsListData = null;
+
+        [UIObject("settings-tab-selector")]
+        private GameObject _settingsTabSelector = null;
 
         public Action modalHidden;
 
@@ -52,12 +62,6 @@ namespace SM64BS.UI
                 Plugin.Settings.ShowNamePlate = value;
                 _marioManager.namePlate.gameObject.SetActive(value);
             }
-        }
-        [UIValue("miss-mario")]
-        public bool SpawnMarioOnMiss
-        {
-            get { return Plugin.Settings.SpawnMarioOnMiss; }
-            set { Plugin.Settings.SpawnMarioOnMiss = value; }
         }
         [UIValue("max-marios")]
         public int MaxMarios
@@ -145,6 +149,15 @@ namespace SM64BS.UI
             _marioManager = marioManager;
         }
 
+        protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
+        {
+            base.DidActivate(firstActivation, addedToHierarchy, screenSystemEnabling);
+
+            int selectedPluginIndex = Plugin.Settings.SelectedPluginIndex;
+            _pluginsListData.tableView.SelectCellWithIdx(selectedPluginIndex);
+            Select(_pluginsListData.tableView, selectedPluginIndex);
+        }
+
         [UIAction("#post-parse")]
         internal void PostParse()
         {
@@ -154,6 +167,37 @@ namespace SM64BS.UI
             _modal.transform.localPosition = Vector3.up * 30f;
             _modal.blockerClickedEvent += BlockerClickedEventHandler;
             _basicUIAudioManager = Resources.FindObjectsOfTypeAll<BasicUIAudioManager>().First(x => x.GetComponent<AudioSource>().enabled && x.isActiveAndEnabled);
+
+            SetupPluginsList();
+        }
+
+        private void SetupPluginsList()
+        {
+            _pluginsListData.data.Clear();
+
+            CustomListTableData.CustomCellInfo defaultCellInfo = new CustomListTableData.CustomCellInfo("Nothing", "Disable plugins", null);
+            _pluginsListData.data.Add(defaultCellInfo);
+
+            foreach (CustomPlugin plugin in Plugin.LoadedCustomPlugins.Values)
+            {
+                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(plugin.Name, plugin.Author, null);
+                _pluginsListData.data.Add(customCellInfo);
+            }
+
+            _pluginsListData.tableView.ReloadData();
+            int selectedPluginIndex = Plugin.Settings.SelectedPluginIndex;
+
+            _pluginsListData.tableView.ScrollToCellWithIdx(selectedPluginIndex, TableView.ScrollPositionType.Beginning, false);
+            _pluginsListData.tableView.SelectCellWithIdx(selectedPluginIndex);
+
+            foreach (ImageView iv in _pluginsListData.tableView.GetComponentsInChildren<ImageView>(true))
+            {
+                iv.SetField("_skew", 0.0f);
+            }
+            foreach (CurvedTextMeshPro tm in _pluginsListData.tableView.GetComponentsInChildren<CurvedTextMeshPro>(true))
+            {
+                tm.fontStyle = TMPro.FontStyles.Normal;
+            }
         }
 
         [UIAction("close-modal")]
@@ -186,6 +230,18 @@ namespace SM64BS.UI
             }, 0.5f);
         }
 
+        [UIAction("plugin-select")]
+        private void Select(TableView view, int row)
+        {
+            Plugin.Settings.SelectedPluginIndex = row;
+            if (row - 1 < 0)
+            {
+                Plugin.Settings.SelectedPlugin = "";
+                return;
+            }
+            Plugin.Settings.SelectedPlugin = Plugin.LoadedCustomPlugins.ElementAt(row - 1).Value.PluginId;
+        }
+
         private void ApplyColor(int index, Color32 value)
         {
             Plugin.Settings.MarioColors[index] = value;
@@ -203,6 +259,19 @@ namespace SM64BS.UI
             _modal.Show(true);
             transform.Find("Blocker").localScale = new Vector3(1.5f, 2.0f, 1.0f);
             _basicUIAudioManager.HandleButtonClickEvent();
+
+            foreach (ImageView iv in gameObject.GetComponentsInChildren<ImageView>(true))
+            {
+                iv.SetField("_skew", 0.0f);
+            }
+            foreach (CurvedTextMeshPro tm in gameObject.GetComponentsInChildren<CurvedTextMeshPro>(true))
+            {
+                tm.fontStyle = TMPro.FontStyles.Normal;
+            }
+            foreach (CurvedTextMeshPro tm in _settingsTabSelector.GetComponentsInChildren<CurvedTextMeshPro>(true))
+            {
+                tm.transform.localPosition = Vector3.zero;
+            }
         }
 
         public void HideModal(bool animated)

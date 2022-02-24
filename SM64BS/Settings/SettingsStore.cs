@@ -2,12 +2,9 @@
 using IPA.Config.Stores.Attributes;
 using IPA.Config.Stores.Converters;
 using LibSM64;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
@@ -20,8 +17,8 @@ namespace SM64BS.Settings
         public bool ShowNamePlate = true;
         [UseConverter(typeof(ListConverter<Color32>))]
         public List<Color32> MarioColors = SM64Types.defaultMarioColors.ToList();
-        public bool SpawnMarioOnMiss = false;
         public int MaxMarios = 5;
-        public string SelectedBundle = "default";
+        public string SelectedPlugin = "";
+        public int SelectedPluginIndex = 0;
     }
 }

@@ -10,7 +10,6 @@ namespace SM64BS.Managers
 {
     internal class MenuMarioManager : IInitializable, IDisposable
     {
-        private readonly BundleLoader _bundleLoader;
         private readonly AppMarioManager _appMarioManager;
         private readonly ResourceUtilities _utils;
 
@@ -21,17 +20,14 @@ namespace SM64BS.Managers
         internal MarioColorManager marioColorManager;
         internal MarioSpecialEffects marioSpecialEffects;
 
-        public MenuMarioManager(BundleLoader bundleLoader, AppMarioManager appMarioManager, ResourceUtilities utils)
+        public MenuMarioManager(AppMarioManager appMarioManager, ResourceUtilities utils)
         {
-            _bundleLoader = bundleLoader;
             _appMarioManager = appMarioManager;
             _utils = utils;
         }
 
         public void Initialize()
         {
-            _bundleLoader.Load();
-
             GameObject groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
             _appMarioManager.AddMenuTerrain(groundGO.AddComponent<SM64StaticTerrain>());
             groundGO.GetComponent<MeshRenderer>().enabled = false;
@@ -40,14 +36,16 @@ namespace SM64BS.Managers
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/Notes"));
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/PileOfNotes"));
 
+            SM64Context.RefreshStaticTerrain();
+
             Vector3 spawnPos = Plugin.Settings.MarioPosition;
 
-            marioGO = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos));
+            marioGO = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos)).gameObject;
             marioGO.AddComponent<MarioBehaviour>();
             marioColorManager = marioGO.AddComponent<MarioColorManager>();
             settingsUIManager = marioGO.AddComponent<SettingsUIManager>();
             marioSpecialEffects = marioGO.AddComponent<MarioSpecialEffects>();
-            InputProvider inputProvider = marioGO.AddComponent<InputProvider>();
+            VRInputProvider inputProvider = marioGO.AddComponent<VRInputProvider>();
             inputProvider.camera = Camera.main;
 
             if (Plugin.Settings.ShowNamePlate)

@@ -4,6 +4,7 @@ using IPA.Config.Stores;
 using LibSM64;
 using SiraUtil.Zenject;
 using SM64BS.Installers;
+using SM64BS.Plugins;
 using SM64BS.Settings;
 using System;
 using System.Collections;
@@ -21,6 +22,7 @@ namespace SM64BS
     {
         internal static SettingsStore Settings { get; private set; }
         internal static IPALogger Log { get; private set; }
+        internal static Dictionary<Tuple<Assembly, int>, CustomPlugin> LoadedCustomPlugins { get; private set; } = new Dictionary<Tuple<Assembly, int>, CustomPlugin>();
 
         [Init]
         public Plugin(IPALogger logger, Config config, Zenjector zenject)
