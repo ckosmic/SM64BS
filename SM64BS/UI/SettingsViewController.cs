@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SM64BS.UI
 {
@@ -186,6 +187,11 @@ namespace SM64BS.UI
 
             _pluginsListData.tableView.ReloadData();
             int selectedPluginIndex = Plugin.Settings.SelectedPluginIndex;
+
+            foreach (LevelListTableCell cell in _pluginsListData.tableView.visibleCells)
+            {
+                Destroy(cell.GetField<Image, LevelListTableCell>("_coverImage").gameObject);
+            }
 
             _pluginsListData.tableView.ScrollToCellWithIdx(selectedPluginIndex, TableView.ScrollPositionType.Beginning, false);
             _pluginsListData.tableView.SelectCellWithIdx(selectedPluginIndex);

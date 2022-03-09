@@ -1,13 +1,5 @@
 ﻿using Zenject;
-using UnityEngine;
 using LibSM64;
-using System;
-using System.Collections.Generic;
-using Random = UnityEngine.Random;
-using SM64BS.Behaviours;
-using static BeatmapSaveData;
-using SM64BS.Utils;
-using IPA.Utilities;
 
 namespace SM64BS.Managers
 {

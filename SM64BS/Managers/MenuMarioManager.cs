@@ -40,13 +40,15 @@ namespace SM64BS.Managers
 
             Vector3 spawnPos = Plugin.Settings.MarioPosition;
 
-            marioGO = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos)).gameObject;
+            SM64Mario sm64Mario = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos));
+            marioGO = sm64Mario.gameObject;
             marioGO.AddComponent<MarioBehaviour>();
             marioColorManager = marioGO.AddComponent<MarioColorManager>();
             settingsUIManager = marioGO.AddComponent<SettingsUIManager>();
             marioSpecialEffects = marioGO.AddComponent<MarioSpecialEffects>();
             VRInputProvider inputProvider = marioGO.AddComponent<VRInputProvider>();
             inputProvider.camera = Camera.main;
+            sm64Mario.RefreshInputProvider();
 
             if (Plugin.Settings.ShowNamePlate)
             {

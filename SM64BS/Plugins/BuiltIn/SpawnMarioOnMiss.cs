@@ -13,7 +13,7 @@ using UnityEngine;
 namespace SM64BS.Plugins.BuiltIn
 {
     [PluginMetadata(Name = "Spawn Mario On Miss", Author = "ckosmic", Description = "Spawns a Mario at your head when you miss a note.", PluginId = "com.christiankosman.spawnmarioonmiss")]
-    internal class SpawnMarioOnMiss : SM64BSPlugin, IScoreEventHandler
+    internal class SpawnMarioOnMiss : SM64BSPlugin, IBeatmapEventHandler
     {
 
         public override void PluginInitialize()
@@ -30,31 +30,51 @@ namespace SM64BS.Plugins.BuiltIn
 
         }
 
-        public void MultiplierDidChange(int multiplier, float progress)
+        public void BeatmapEventTriggered(BeatmapEventData songEvent)
         {
             
         }
 
-        public void ScoreDidChange(int score, int scoreAfterModifier)
+        public void NoteWasSpawned(NoteData noteData)
         {
             
         }
 
-        public void ComboDidChange(int combo)
+        public void NoteWasDespawned(NoteData noteData)
         {
             
         }
 
-        public void NoteWasCut(NoteData noteData, in NoteCutInfo noteCutInfo, int multiplier)
-        {
-            
-        }
-
-        public void NoteWasMissed(NoteData noteData, int multiplier)
+        public void NoteWasMissed(NoteData noteData)
         {
             SM64Mario sm64Mario = GameScene.SpawnMario(GameScene.cameraTransform.position + GameScene.cameraTransform.forward, GameScene.cameraTransform.rotation);
             sm64Mario?.gameObject.AddComponent<RandomInputProvider>();
             sm64Mario?.RefreshInputProvider();
+        }
+
+        public void NoteWasCut(NoteData noteData, NoteCutInfo noteCutInfo)
+        {
+            
+        }
+
+        public void NoteDidStartJump(NoteData noteData)
+        {
+            
+        }
+
+        public void ObstacleWasSpawned(ObstacleData obstacleData)
+        {
+            
+        }
+
+        public void ObstacleWasDespawned(ObstacleData obstacleData)
+        {
+            
+        }
+
+        public void ObstacleDidPassAvoidedMark(ObstacleData obstacleData)
+        {
+            
         }
     }
 }

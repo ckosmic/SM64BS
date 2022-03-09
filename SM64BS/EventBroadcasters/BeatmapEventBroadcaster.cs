@@ -1,27 +1,18 @@
 ﻿using SM64BS.Plugins.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static BeatmapSaveData;
 
 namespace SM64BS.EventBroadcasters
 {
     internal class BeatmapEventBroadcaster : EventBroadcaster<IBeatmapEventHandler>
     {
         private BeatmapObjectManager _beatmapObjectManager;
-        private BeatmapObjectCallbackController _beatmapObjectCallbackController;
 
-        public BeatmapEventBroadcaster(BeatmapObjectManager beatmapObjectManager, BeatmapObjectCallbackController beatmapObjectCallbackController)
+        public BeatmapEventBroadcaster(BeatmapObjectManager beatmapObjectManager)
         {
             _beatmapObjectManager = beatmapObjectManager;
-            _beatmapObjectCallbackController = beatmapObjectCallbackController;
         }
 
         public override void Initialize()
         {
-            _beatmapObjectCallbackController.beatmapEventDidTriggerEvent += BeatmapEventTriggeredHandler;
             _beatmapObjectManager.noteWasSpawnedEvent += NoteWasSpawnedHandler;
             _beatmapObjectManager.noteWasDespawnedEvent += NoteWasDespawnedHandler;
             _beatmapObjectManager.noteWasMissedEvent += NoteWasMissedHandler;
@@ -37,6 +28,7 @@ namespace SM64BS.EventBroadcasters
             
         }
 
+        // 1.20 happened !!
         private void BeatmapEventTriggeredHandler(BeatmapEventData songEvent)
         {
             foreach (IBeatmapEventHandler eventHandler in EventHandlers)
