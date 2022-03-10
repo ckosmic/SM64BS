@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using Zenject;
 
 namespace SM64BS.Managers
@@ -37,6 +38,7 @@ namespace SM64BS.Managers
 
         public void Dispose()
         {
+            UnityEngine.Object.DestroyImmediate(menuMarioGO);
             SM64Context.Terminate();
         }
 

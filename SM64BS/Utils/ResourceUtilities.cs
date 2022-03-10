@@ -10,7 +10,7 @@ using Zenject;
 
 namespace SM64BS.Utils
 {
-	internal class ResourceUtilities : IInitializable
+	internal class ResourceUtilities : IInitializable, IDisposable
 	{
 		internal static string mainBundleResourcePath;
 
@@ -20,6 +20,12 @@ namespace SM64BS.Utils
 		{
 			if (mainBundleResourcePath != null && mainBundleResourcePath.Length > 0)
 				LoadMainAssetBundleFromResource(mainBundleResourcePath);
+		}
+
+		public void Dispose()
+		{
+			if(_mainBundle != null)
+				_mainBundle.Unload(true);
 		}
 
 		public void LoadMainAssetBundleFromResource(string resourcePath)

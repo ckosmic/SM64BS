@@ -5,6 +5,7 @@ using System;
 using SM64BS.Behaviours;
 using SM64BS.Utils;
 using SM64BS.UI;
+using HMUI;
 
 namespace SM64BS.Managers
 {

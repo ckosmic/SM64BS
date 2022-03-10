@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -191,6 +192,8 @@ namespace SM64BS.UI
             foreach (LevelListTableCell cell in _pluginsListData.tableView.visibleCells)
             {
                 Destroy(cell.GetField<Image, LevelListTableCell>("_coverImage").gameObject);
+                cell.GetField<TextMeshProUGUI, LevelListTableCell>("_songNameText").transform.localPosition = new Vector3(-28.5f, -3.05f);
+                cell.GetField<TextMeshProUGUI, LevelListTableCell>("_songAuthorText").transform.localPosition = new Vector3(-28.5f, -5.85f);
             }
 
             _pluginsListData.tableView.ScrollToCellWithIdx(selectedPluginIndex, TableView.ScrollPositionType.Beginning, false);
