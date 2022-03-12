@@ -53,6 +53,8 @@ namespace SM64BS.Behaviours
             Vector2 axis = Vector2.zero;
             if (leftControllers.Count > 0)
                 leftControllers[0].TryGetFeatureValue(CommonUsages.primary2DAxis, out axis);
+            else
+                axis = new Vector2(Input.GetAxis("HorizontalLeftHand"), -Input.GetAxis("VerticalLeftHand"));
             return axis;
         }
 
@@ -72,6 +74,22 @@ namespace SM64BS.Behaviours
                     case Button.Stomp:
                         float triggerValue = 0.0f;
                         leftControllers[0].TryGetFeatureValue(CommonUsages.trigger, out triggerValue);
+                        held = triggerValue >= 0.5f;
+                        break;
+                }
+            }
+            else
+            {
+                switch (button)
+                {
+                    case Button.Jump:
+                        held = Input.GetButton("MenuButtonRightHand");
+                        break;
+                    case Button.Kick:
+                        held = Input.GetButton("MenuButtonLeftHand");
+                        break;
+                    case Button.Stomp:
+                        float triggerValue = Input.GetAxis("TriggerLeftHand");
                         held = triggerValue >= 0.5f;
                         break;
                 }

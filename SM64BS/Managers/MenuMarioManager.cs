@@ -9,7 +9,7 @@ using HMUI;
 
 namespace SM64BS.Managers
 {
-    internal class MenuMarioManager : IInitializable, IDisposable
+    internal class MenuMarioManager : IInitializable
     {
         private readonly AppMarioManager _appMarioManager;
         private readonly ResourceUtilities _utils;
@@ -72,18 +72,13 @@ namespace SM64BS.Managers
             _appMarioManager.menuMarioGO = marioGO;
         }
 
-        public void Dispose()
-        {
-            SM64Context.Terminate();
-        }
-
         private void AddSM64Collision(GameObject root)
         {
             foreach (BoxCollider bc in root.GetComponentsInChildren<BoxCollider>())
             {
                 if (bc.transform.parent.GetComponent<Animation>())
                 {
-                    //_appMarioManager.AddMenuTerrain(bc.gameObject.AddComponent<SM64DynamicTerrain>());
+                    _appMarioManager.AddMenuTerrain(bc.gameObject.AddComponent<SM64DynamicTerrain>());
                 }
                 else
                 {
