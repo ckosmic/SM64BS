@@ -16,6 +16,8 @@ namespace SM64BS.Plugins
 
         public void Initialize()
         {
+            Plugin.LoadedCustomPlugins.Clear();
+
             AddPlugin<PauseMenuMario>();
             AddPlugin<SpawnMarioOnMiss>();
         }

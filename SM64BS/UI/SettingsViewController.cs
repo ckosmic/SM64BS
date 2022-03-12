@@ -1,6 +1,7 @@
 ﻿using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Components;
+using BeatSaberMarkupLanguage.Components.Settings;
 using BeatSaberMarkupLanguage.ViewControllers;
 using HMUI;
 using IPA.Utilities;
@@ -37,6 +38,18 @@ namespace SM64BS.UI
         private ModalView _modal = null;
         [UIComponent("plugins-list")]
         private CustomListTableData _pluginsListData = null;
+        [UIComponent("color-blue")]
+        private ColorSetting _colorSettingBlue = null;
+        [UIComponent("color-red")]
+        private ColorSetting _colorSettingRed = null;
+        [UIComponent("color-white")]
+        private ColorSetting _colorSettingWhite = null;
+        [UIComponent("color-brown1")]
+        private ColorSetting _colorSettingBrown1 = null;
+        [UIComponent("color-beige")]
+        private ColorSetting _colorSettingBeige = null;
+        [UIComponent("color-brown2")]
+        private ColorSetting _colorSettingBrown2 = null;
 
         [UIObject("settings-tab-selector")]
         private GameObject _settingsTabSelector = null;
@@ -221,6 +234,12 @@ namespace SM64BS.UI
             Plugin.Settings.MarioColors = SM64Types.defaultMarioColors.ToList();
             _marioManager.marioColorManager.SetMarioColors(SM64Types.defaultMarioColors);
             _marioManager.marioSpecialEffects.SpawnPopParticles();
+            _colorSettingBlue.CurrentColor = SM64Types.defaultMarioColors[1];
+            _colorSettingRed.CurrentColor = SM64Types.defaultMarioColors[3];
+            _colorSettingWhite.CurrentColor = SM64Types.defaultMarioColors[5];
+            _colorSettingBrown1.CurrentColor = SM64Types.defaultMarioColors[7];
+            _colorSettingBeige.CurrentColor = SM64Types.defaultMarioColors[9];
+            _colorSettingBrown2.CurrentColor = SM64Types.defaultMarioColors[11];
         }
 
         [UIAction("reset-position")]

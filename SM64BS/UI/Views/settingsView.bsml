@@ -28,27 +28,27 @@
 							</horizontal>
 							<horizontal spacing='46' pad-top='3' horizontal-fit='PreferredSize' preferred-width='58'>
 								<text text='Overalls' align='Left' font-size='4' italics='true' />
-								<color-setting value='blue' text='' apply-on-change='true' />
+								<color-setting id='color-blue' value='blue' text='' apply-on-change='true' />
 							</horizontal>
 							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
 								<text text='Shirt/Hat' align='Left' font-size='4' italics='true' />
-								<color-setting value='red' text='' apply-on-change='true' />
+								<color-setting id='color-red' value='red' text='' apply-on-change='true' />
 							</horizontal>
 							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
 								<text text='Gloves' align='Left' font-size='4' italics='true' />
-								<color-setting value='white' text='' apply-on-change='true' />
+								<color-setting id='color-white' value='white' text='' apply-on-change='true' />
 							</horizontal>
 							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
 								<text text='Shoes' align='Left' font-size='4' italics='true' />
-								<color-setting value='brown1' text='' apply-on-change='true' />
+								<color-setting id='color-brown1' value='brown1' text='' apply-on-change='true' />
 							</horizontal>
 							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
 								<text text='Skin' align='Left' font-size='4' italics='true' />
-								<color-setting value='beige' text='' apply-on-change='true' />
+								<color-setting id='color-beige' value='beige' text='' apply-on-change='true' />
 							</horizontal>
 							<horizontal spacing='46' horizontal-fit='PreferredSize' preferred-width='58'>
 								<text text='Hair' align='Left' font-size='4' italics='true' />
-								<color-setting value='brown2' text='' apply-on-change='true' />
+								<color-setting id='color-brown2' value='brown2' text='' apply-on-change='true' />
 							</horizontal>
 							<button text='Reset Colors' on-click='reset-colors' preferred-width='58' pad-top='3' hover-hint="Click this to set Mario's colors to default." />
 							<button text='Reset Position' on-click='reset-position' preferred-width='58' hover-hint='Click this if Mario gets stuck.' />

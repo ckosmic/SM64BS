@@ -12,14 +12,21 @@ namespace SM64BS.Utils
 {
 	internal class ResourceUtilities : IInitializable, IDisposable
 	{
-		internal static string mainBundleResourcePath;
+		internal static string MainBundleResourcePath { get; set; }
+		internal static string RomPath { get { if (_validRomPath == null) _validRomPath = _romPathsToSearch.FirstOrDefault(x => File.Exists(x)); return _validRomPath; } }
 
 		private AssetBundle _mainBundle;
+		private static string[] _romPathsToSearch =
+		{
+			Path.Combine(Environment.CurrentDirectory, @"baserom.us.z64"),
+			Path.Combine(Environment.CurrentDirectory, @"UserData\baserom.us.z64")
+		};
+		private static string _validRomPath = null;
 
 		public void Initialize()
 		{
-			if (mainBundleResourcePath != null && mainBundleResourcePath.Length > 0)
-				LoadMainAssetBundleFromResource(mainBundleResourcePath);
+			if (MainBundleResourcePath != null && MainBundleResourcePath.Length > 0)
+				LoadMainAssetBundleFromResource(MainBundleResourcePath);
 		}
 
 		public void Dispose()
@@ -30,7 +37,7 @@ namespace SM64BS.Utils
 
 		public void LoadMainAssetBundleFromResource(string resourcePath)
 		{
-			_mainBundle = LoadAssetBundleFromResource(mainBundleResourcePath);
+			_mainBundle = LoadAssetBundleFromResource(MainBundleResourcePath);
 		}
 
 		public T LoadAssetFromMainBundle<T>(string name) where T : UnityEngine.Object

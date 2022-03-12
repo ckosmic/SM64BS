@@ -6,9 +6,11 @@ using SiraUtil.Zenject;
 using SM64BS.Installers;
 using SM64BS.Plugins;
 using SM64BS.Settings;
+using SM64BS.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -29,6 +31,12 @@ namespace SM64BS
         {
             Settings = config.Generated<SettingsStore>();
             Log = logger;
+
+            if (ResourceUtilities.RomPath == null)
+            {
+                Log.Error("Cannot start SM64BS. Please place baserom.us.z64 in your Beat Saber directory.");
+                return;
+            }
 
             zenject.Install<SM64BSAppInstaller>(Location.App);
             zenject.Install<SM64BSMenuInstaller>(Location.Menu);

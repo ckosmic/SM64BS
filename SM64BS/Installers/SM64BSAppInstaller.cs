@@ -9,7 +9,7 @@ namespace SM64BS.Installers
     {
         public override void InstallBindings()
         {
-            ResourceUtilities.mainBundleResourcePath = $"SM64BS.Resources.assets.unity3d";
+            ResourceUtilities.MainBundleResourcePath = $"SM64BS.Resources.assets.unity3d";
             Container.BindInterfacesTo<BuiltInPluginLoader>().AsSingle();
             Container.BindInterfacesAndSelfTo<ResourceUtilities>().AsSingle();
             Container.BindInterfacesAndSelfTo<AppMarioManager>().AsSingle();

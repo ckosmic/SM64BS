@@ -32,7 +32,7 @@ namespace SM64BS.Managers
 
         public void Initialize()
         {
-            SM64Context.Initialize(Path.Combine(Environment.CurrentDirectory, "baserom.us.z64"));
+            SM64Context.Initialize(ResourceUtilities.RomPath);
             SM64Context.SetScaleFactor(2.0f);
         }
 
