@@ -40,11 +40,11 @@ namespace SM64BS.Installers
         {
             if (pluginMainType == typeof(MonoBehaviour))
             {
-                Container.BindInterfacesAndSelfTo(pluginMainType).FromComponentOnRoot().AsSingle();
+                Container.BindInterfacesAndSelfTo(pluginMainType).FromNewComponentOnNewGameObject().AsSingle().NonLazy();
             }
             else
             {
-                Container.BindInterfacesAndSelfTo(pluginMainType).AsSingle();
+                Container.BindInterfacesAndSelfTo(pluginMainType).AsSingle().NonLazy();
             }
         }
     }

@@ -3,7 +3,7 @@
   "id": "SM64BS",
   "name": "SM64BS",
   "author": "ckosmic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "libsm64 dumb mod",
   "gameVersion": "1.19.0",
   "dependsOn": {

@@ -51,13 +51,11 @@ namespace SM64BS.Managers
             inputProvider.camera = Camera.main;
             sm64Mario.RefreshInputProvider();
 
-            if (Plugin.Settings.ShowNamePlate)
-            {
-                namePlate = new GameObject("NamePlate").AddComponent<NamePlate>();
-                namePlate.transform.SetParent(marioGO.transform);
-                namePlate.transform.localPosition = new Vector3(0f, 0.9f, 0f);
-                namePlate.Initialize(_utils);
-            }
+            namePlate = new GameObject("NamePlate").AddComponent<NamePlate>();
+            namePlate.transform.SetParent(marioGO.transform);
+            namePlate.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+            namePlate.Initialize(_utils);
+            namePlate.gameObject.SetActive(Plugin.Settings.ShowNamePlate);
 
             vrPointerListener = new GameObject("VRPointerListener").AddComponent<VRPointerListener>();
             vrPointerListener.Initialize(namePlate, settingsUIManager);
