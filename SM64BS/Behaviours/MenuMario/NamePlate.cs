@@ -41,12 +41,12 @@ namespace SM64BS.Behaviours
             }
             if (_textMaterial == null)
             {
-                Shader shader = utils.LoadAssetFromMainBundle<Shader>("Assets/SM64BS/TMP_SDF-Billboard.shader");
+                Shader shader = utils.LoadAssetFromMainBundle<Shader>("TMP_SDF-Billboard.shader");
                 _textMaterial = new Material(shader);
             }
             if (_plateMaterial == null)
             {
-                Shader shader = utils.LoadAssetFromMainBundle<Shader>("Assets/SM64BS/sh_ui_billboard.shader");
+                Shader shader = utils.LoadAssetFromMainBundle<Shader>("sh_ui_billboard.shader");
                 _plateMaterial = new Material(shader);
                 _plateMaterial.SetFloat("_Skew", 0.18f);
                 _plateMaterial.SetColor("_Color", new Color(0.0f, 0.0f, 0.0f, 0.35f));

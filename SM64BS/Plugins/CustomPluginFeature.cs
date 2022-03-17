@@ -49,6 +49,7 @@ namespace SM64BS.Plugins
                 }
 
                 Tuple<Assembly, int> t = new Tuple<Assembly, int>(meta.Assembly, Plugin.LoadedCustomPlugins.Count);
+                Plugin.Log.Info("Loaded " + plugin.Name);
                 Plugin.LoadedCustomPlugins.Add(t, plugin);
             }
         }

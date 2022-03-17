@@ -15,14 +15,14 @@ namespace SM64BS.EventBroadcasters
         {
             _scoreController.multiplierDidChangeEvent += MultiplierDidChangeHandler;
             _scoreController.scoreDidChangeEvent += ScoreDidChangeHandler;
-            //_scoreController.scoringForNoteFinishedEvent += ScoringForNoteFinishedHandler;
+            _scoreController.scoringForNoteFinishedEvent += ScoringForNoteFinishedHandler;
         }
 
         public override void Dispose()
         {
             _scoreController.multiplierDidChangeEvent -= MultiplierDidChangeHandler;
             _scoreController.scoreDidChangeEvent -= ScoreDidChangeHandler;
-            //_scoreController.scoringForNoteFinishedEvent -= ScoringForNoteFinishedHandler;
+            _scoreController.scoringForNoteFinishedEvent -= ScoringForNoteFinishedHandler;
         }
 
         private void MultiplierDidChangeHandler(int multiplier, float progress)
@@ -41,12 +41,12 @@ namespace SM64BS.EventBroadcasters
             }
         }
 
-        /*private void ScoringForNoteFinishedHandler(ScoringElement scoringElement)
+        private void ScoringForNoteFinishedHandler(ScoringElement scoringElement)
         {
             foreach (IScoreEventHandler eventHandler in EventHandlers)
             {
                 eventHandler?.ScoringForNoteFinished(scoringElement);
             }
-        }*/
+        }
     }
 }

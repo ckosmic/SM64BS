@@ -34,10 +34,10 @@ namespace SM64BS.Behaviours
             keys[1].inTangent = Mathf.Exp(1);
             _easeIn.keys = keys;
 
-            _outParticlesPrefab = _utils.LoadAssetFromMainBundle<GameObject>("Assets/SM64BS/01.prefab");
-            _inParticlesPrefab = _utils.LoadAssetFromMainBundle<GameObject>("Assets/SM64BS/01In.prefab");
-            _popParticlesPrefab = _utils.LoadAssetFromMainBundle<GameObject>("Assets/SM64BS/Pop.prefab");
-            _ringPrefab = _utils.LoadAssetFromMainBundle<GameObject>("Assets/SM64BS/Ring.prefab");
+            _outParticlesPrefab = _utils.LoadAssetFromMainBundle<GameObject>("01.prefab");
+            _inParticlesPrefab = _utils.LoadAssetFromMainBundle<GameObject>("01In.prefab");
+            _popParticlesPrefab = _utils.LoadAssetFromMainBundle<GameObject>("Pop.prefab");
+            _ringPrefab = _utils.LoadAssetFromMainBundle<GameObject>("Ring.prefab");
         }
 
         public void SpawnPopParticles()

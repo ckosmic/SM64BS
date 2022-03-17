@@ -5,7 +5,7 @@ using Zenject;
 
 namespace SM64BS.Managers
 {
-    internal class MarioSceneManager : IInitializable, IDisposable
+    public class MarioSceneManager : IInitializable, IDisposable
     {
         protected List<SM64Mario> marios = new List<SM64Mario>();
 

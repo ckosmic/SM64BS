@@ -54,7 +54,7 @@ namespace SM64BS.Managers
 
             if (_marioShader == null)
             {
-                _marioShader = _utils.LoadAssetFromMainBundle<Shader>("Assets/SM64BS/mario.shader");
+                _marioShader = _utils.LoadAssetFromMainBundle<Shader>("mario.shader");
             }
 
             if (_marioMaterial == null)
@@ -87,22 +87,6 @@ namespace SM64BS.Managers
                 mb.enabled = enabled;
             }
             SM64Context.RefreshStaticTerrain();
-        }
-
-        // Need this or else literally everything breaks really badly
-        public void CreateMenuBufferPlatform()
-        {
-            if(_menuBufferPlatform != null) UnityEngine.Object.DestroyImmediate(_menuBufferPlatform);
-
-            _menuBufferPlatform = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            UnityEngine.Object.DestroyImmediate(_menuBufferPlatform.GetComponent<MeshCollider>());
-            _menuBufferPlatform.AddComponent<SM64StaticTerrain>();
-            _menuBufferPlatform.GetComponent<MeshRenderer>().enabled = false;
-            _menuBufferPlatform.transform.position = menuMarioGO.transform.position;
-            _menuBufferPlatform.transform.localScale = Vector3.one * 0.5f;
-            _menuBufferPlatform.transform.rotation = Quaternion.Euler(90, 0, 0);
-            _menuBufferPlatform.name = "MenuMarioPlatform";
-            UnityEngine.Object.DontDestroyOnLoad(_menuBufferPlatform);
         }
     }
 }

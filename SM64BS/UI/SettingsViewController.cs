@@ -167,10 +167,6 @@ namespace SM64BS.UI
         protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
         {
             base.DidActivate(firstActivation, addedToHierarchy, screenSystemEnabling);
-
-            int selectedPluginIndex = Plugin.Settings.SelectedPluginIndex;
-            _pluginsListData.tableView.SelectCellWithIdx(selectedPluginIndex);
-            Select(_pluginsListData.tableView, selectedPluginIndex);
         }
 
         [UIAction("#post-parse")]
@@ -209,9 +205,7 @@ namespace SM64BS.UI
                 cell.GetField<TextMeshProUGUI, LevelListTableCell>("_songAuthorText").transform.localPosition = new Vector3(-28.5f, -5.85f);
             }
 
-            _pluginsListData.tableView.ScrollToCellWithIdx(selectedPluginIndex, TableView.ScrollPositionType.Beginning, false);
-            _pluginsListData.tableView.SelectCellWithIdx(selectedPluginIndex);
-
+            // Remove skew/italics
             foreach (ImageView iv in _pluginsListData.tableView.GetComponentsInChildren<ImageView>(true))
             {
                 iv.SetField("_skew", 0.0f);
@@ -220,6 +214,9 @@ namespace SM64BS.UI
             {
                 tm.fontStyle = TMPro.FontStyles.Normal;
             }
+
+            _pluginsListData.tableView.ScrollToCellWithIdx(selectedPluginIndex, TableView.ScrollPositionType.Beginning, false);
+            _pluginsListData.tableView.SelectCellWithIdx(selectedPluginIndex);
         }
 
         [UIAction("close-modal")]
@@ -300,6 +297,10 @@ namespace SM64BS.UI
             {
                 tm.transform.localPosition = Vector3.zero;
             }
+
+            int selectedPluginIndex = Plugin.Settings.SelectedPluginIndex;
+            _pluginsListData.tableView.SelectCellWithIdx(selectedPluginIndex);
+            Select(_pluginsListData.tableView, selectedPluginIndex);
         }
 
         public void HideModal(bool animated)

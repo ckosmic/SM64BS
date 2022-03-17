@@ -20,7 +20,8 @@ namespace SM64BS.Behaviours
             _settingsUIManager = settingsUIManager;
 
             BoxCollider collider = gameObject.AddComponent<BoxCollider>();
-            collider.size = new Vector3(0.5f, 0.7f, 0.5f);
+            collider.size = new Vector3(0.5f, 0.6f, 0.5f);
+            collider.center = new Vector3(0.0f, 0.1f, 0.0f);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

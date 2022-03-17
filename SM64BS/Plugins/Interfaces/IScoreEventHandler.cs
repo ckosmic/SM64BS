@@ -4,6 +4,6 @@
     {
         void MultiplierDidChange(int multiplier, float progress);
         void ScoreDidChange(int score, int scoreAfterModifier);
-        //void ScoringForNoteFinished(ScoringElement scoringElement);
+        void ScoringForNoteFinished(ScoringElement scoringElement);
     }
 }

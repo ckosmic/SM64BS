@@ -10,9 +10,10 @@ using Zenject;
 
 namespace SM64BS.Utils
 {
-	internal class ResourceUtilities : IInitializable, IDisposable
+	public class ResourceUtilities : IInitializable, IDisposable
 	{
 		internal static string MainBundleResourcePath { get; set; }
+		internal static string MainBundleAssetsPath { get; set; } = "";
 		internal static string RomPath { get { if (_validRomPath == null) _validRomPath = _romPathsToSearch.FirstOrDefault(x => File.Exists(x)); return _validRomPath; } }
 
 		private AssetBundle _mainBundle;
@@ -42,7 +43,7 @@ namespace SM64BS.Utils
 
 		public T LoadAssetFromMainBundle<T>(string name) where T : UnityEngine.Object
 		{
-			return _mainBundle.LoadAsset<T>(name);
+			return _mainBundle.LoadAsset<T>(MainBundleAssetsPath + name);
 		}
 
         public AssetBundle LoadAssetBundleFromResource(string path)
@@ -69,6 +70,14 @@ namespace SM64BS.Utils
 
 		public Sprite LoadSpriteFromResource(string path)
 		{
+			Texture2D tex = LoadTextureFromResource(path);
+			if (tex == null) return null;
+			Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100);
+			return sprite;
+		}
+
+		public Texture2D LoadTextureFromResource(string path)
+		{
 			Assembly assembly = Assembly.GetCallingAssembly();
 			using (Stream stream = assembly.GetManifestResourceStream(path))
 			{
@@ -79,17 +88,20 @@ namespace SM64BS.Utils
 					Texture2D tex = new Texture2D(2, 2);
 					if (tex.LoadImage(data))
 					{
-						Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100);
-						return sprite;
+						return tex;
+					}
+					else
+					{
+						Plugin.Log.Error("Failed to load texture.");
+						return null;
 					}
 				}
 				else
 				{
-					Plugin.Log.Error("Failed to open sprite resource stream.");
+					Plugin.Log.Error("Failed to open texture resource stream.");
 					return null;
 				}
 			}
-			return null;
 		}
 	}
 }

@@ -6,6 +6,7 @@ using SM64BS.Behaviours;
 using SM64BS.Utils;
 using SM64BS.UI;
 using HMUI;
+using UnityEngine.UI;
 
 namespace SM64BS.Managers
 {
@@ -29,10 +30,12 @@ namespace SM64BS.Managers
 
         public void Initialize()
         {
+            float groundScale = 5f;
+
             GameObject groundGO = GameObject.CreatePrimitive(PrimitiveType.Plane);
             _appMarioManager.AddMenuTerrain(groundGO.AddComponent<SM64StaticTerrain>());
             groundGO.GetComponent<MeshRenderer>().enabled = false;
-            groundGO.transform.localScale = Vector3.one * 5f;
+            groundGO.transform.localScale = Vector3.one * groundScale;
 
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/Notes"));
             AddSM64Collision(GameObject.Find("MenuEnvironmentManager/DefaultMenuEnvironment/PileOfNotes"));
@@ -40,6 +43,11 @@ namespace SM64BS.Managers
             SM64Context.RefreshStaticTerrain();
 
             Vector3 spawnPos = Plugin.Settings.MarioPosition;
+            if (Mathf.Abs(spawnPos.x) > groundScale*5f || Mathf.Abs(spawnPos.z) > groundScale*5f)
+            {
+                spawnPos = new Vector3(2f, 0f, 3f);
+                Plugin.Settings.MarioPosition = spawnPos;
+            }
 
             SM64Mario sm64Mario = _appMarioManager.SpawnMario(spawnPos, Quaternion.LookRotation(new Vector3(0, spawnPos.y, 0) - spawnPos));
             marioGO = sm64Mario.gameObject;
@@ -66,6 +74,12 @@ namespace SM64BS.Managers
             settingsUIManager.CreateFloatingScreen();
 
             marioSpecialEffects.Initialize(_utils);
+
+            RaycastShadow shadow = new GameObject("Shadow").AddComponent<RaycastShadow>();
+            shadow.utils = _utils;
+            shadow.transform.SetParent(marioGO.transform);
+            shadow.transform.localPosition = Vector3.zero;
+            shadow.transform.localRotation = Quaternion.identity;
 
             _appMarioManager.menuMarioGO = marioGO;
         }

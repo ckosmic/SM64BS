@@ -12,7 +12,7 @@ namespace SM64BS.Settings
 {
     internal class SettingsStore
     {
-        public Vector3 MarioPosition = new Vector3(5f, 0f, 5f);
+        public Vector3 MarioPosition = new Vector3(2f, 0f, 3f);
         public string MarioName = "Mario";
         public bool ShowNamePlate = true;
         [UseConverter(typeof(ListConverter<Color32>))]

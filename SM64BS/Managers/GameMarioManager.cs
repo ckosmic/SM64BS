@@ -16,7 +16,6 @@ namespace SM64BS.Managers
         {
             base.Initialize();
 
-            _appMarioManager.CreateMenuBufferPlatform();
             _appMarioManager.SetMenuTerrainsEnabled(false);
         }
 

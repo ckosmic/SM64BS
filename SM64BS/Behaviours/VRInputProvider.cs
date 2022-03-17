@@ -43,6 +43,8 @@ namespace SM64BS.Behaviours
 
         public override Vector3 GetCameraLookDirection()
         {
+            if (camera == null)
+                camera = Camera.main;
             if(camera != null)
                 return camera.transform.forward;
             return Vector3.forward;

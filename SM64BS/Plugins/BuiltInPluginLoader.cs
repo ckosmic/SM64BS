@@ -13,7 +13,6 @@ namespace SM64BS.Plugins
 {
     internal class BuiltInPluginLoader : IInitializable
     {
-
         public void Initialize()
         {
             AddPlugin<PauseMenuMario>();
@@ -34,6 +33,20 @@ namespace SM64BS.Plugins
             else 
             {
                 Plugin.Log.Info(typeof(T).FullName + " has no metadata attribute.");
+            }
+        }
+
+        public void UnloadPlugins()
+        {
+            Assembly mainAssembly = Assembly.GetExecutingAssembly();
+            List<Tuple<Assembly, int>> markedForRemoval = new List<Tuple<Assembly, int>>();
+            foreach (Tuple<Assembly, int> tuple in Plugin.LoadedCustomPlugins.Keys.Where(t => t.Item1 == mainAssembly))
+            {
+                markedForRemoval.Add(tuple);
+            }
+            foreach (Tuple<Assembly, int> tuple in markedForRemoval)
+            {
+                Plugin.LoadedCustomPlugins.Remove(tuple);
             }
         }
     }

@@ -6,12 +6,11 @@ using Zenject;
 
 namespace SM64BS.Managers
 {
-    public class SM64BSGame
+    public class SM64BSGame : MarioSceneManager
     {
         private readonly AppMarioManager _appMarioManager;
         private readonly SaberManager _saberManager;
 
-        private List<SM64Mario> _marios = new List<SM64Mario>();
         private Transform _saberLTransform, _saberRTransform, _cameraTransform = null;
 
         public Transform cameraTransform
@@ -51,12 +50,12 @@ namespace SM64BS.Managers
 
         public SM64Mario SpawnMario(Vector3 position, Quaternion rotation)
         {
-            if (_marios.Count < Plugin.Settings.MaxMarios)
+            if (marios.Count < Plugin.Settings.MaxMarios)
             {
                 SM64Context.RefreshStaticTerrain();
                 SM64Mario newMario = _appMarioManager.SpawnMario(position, rotation);
                 if(newMario != null)
-                    _marios.Add(newMario);
+                    marios.Add(newMario);
                 return newMario;
             }
             return null;
