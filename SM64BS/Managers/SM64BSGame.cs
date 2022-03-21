@@ -13,7 +13,7 @@ namespace SM64BS.Managers
 
         private Transform _saberLTransform, _saberRTransform, _cameraTransform = null;
 
-        public Transform cameraTransform
+        public Transform CameraTransform
         {
             get
             {
@@ -22,7 +22,7 @@ namespace SM64BS.Managers
                 return _cameraTransform;
             }
         }
-        public Transform saberLTransform
+        public Transform SaberLTransform
         {
             get
             { 
@@ -31,7 +31,7 @@ namespace SM64BS.Managers
                 return _saberLTransform;
             } 
         }
-        public Transform saberRTransform
+        public Transform SaberRTransform
         {
             get
             {

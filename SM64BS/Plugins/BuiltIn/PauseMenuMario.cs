@@ -29,7 +29,7 @@ namespace SM64BS.Plugins.BuiltIn
 
             _sm64Mario = GameScene.SpawnMario(new Vector3(1, 0.02f, 0.75f), Quaternion.Euler(0, 180, 0));
             TriggerInputProvider inputProvider = _sm64Mario.gameObject.AddComponent<TriggerInputProvider>();
-            inputProvider.SetSaberTransforms(GameScene.saberLTransform, GameScene.saberRTransform);
+            inputProvider.SetSaberTransforms(GameScene.SaberLTransform, GameScene.SaberRTransform);
             _sm64Mario.RefreshInputProvider();
             _sm64Mario.marioRendererObject.SetActive(false);
             _sm64Mario.enabled = false;

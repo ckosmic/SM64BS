@@ -21,4 +21,4 @@ A Beat Saber mod that uses a modified version of [libsm64](https://github.com/ck
 [Index Controllers](https://cdn.discordapp.com/attachments/470381425758175235/951655761472274442/export_steam_app_620980_knuckles_SM64BS_Index.json)
 
 ## Plugin Support
-SM64BS uses a Counters+ style plugin system for customizing Mario's behavior in the game scene.  More on this later.
+SM64BS uses a Counters+ style plugin system for customizing Mario's behavior in the game scene.  Check the [wiki page here](https://github.com/ckosmic/SM64BS/wiki/Writing-a-SM64BS-Plugin) to find out how to write a plugin!

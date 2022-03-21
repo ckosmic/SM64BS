@@ -30,7 +30,7 @@ namespace SM64BS.Plugins.BuiltIn
         {
             if (noteData.colorType != ColorType.None && (noteData.gameplayType == NoteData.GameplayType.BurstSliderHead || noteData.gameplayType == NoteData.GameplayType.Normal))
             {
-                SM64Mario sm64Mario = GameScene.SpawnMario(GameScene.cameraTransform.position + GameScene.cameraTransform.forward, GameScene.cameraTransform.rotation);
+                SM64Mario sm64Mario = GameScene.SpawnMario(GameScene.CameraTransform.position + GameScene.CameraTransform.forward, GameScene.CameraTransform.rotation);
                 sm64Mario?.gameObject.AddComponent<RandomInputProvider>();
                 sm64Mario?.RefreshInputProvider();
             }
